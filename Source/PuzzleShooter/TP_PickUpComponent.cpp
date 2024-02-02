@@ -48,7 +48,7 @@ void UTP_PickUpComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
 
 		OnPickUp.RemoveAll(this);
 		// Unregister from the Overlap Event so it is no longer triggered
-		OnComponentBeginOverlap.RemoveAll(this); 
+		OnComponentBeginOverlap.RemoveAll(this);
 		OnComponentEndOverlap.RemoveAll(this);
 	}
 }
