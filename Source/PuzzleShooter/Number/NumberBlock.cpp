@@ -3,6 +3,7 @@
 
 #include "NumberBlock.h"
 
+#include "PuzzleShooter/PuzzleShooterCharacter.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
 
 
@@ -17,15 +18,15 @@ ANumberBlock::ANumberBlock()
 	StaticMeshComponent->SetStaticMesh(CubeMeshRef);
 	FTransform transform(FVector(1,1,1));
 	StaticMeshComponent->SetWorldTransform(transform);
+	// StaticMeshComponent->SetBoundsScale(0.25);
 	
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Cube"));
-	
 	BoxComponent->SetBoxExtent(FVector(1,1,1));
+	BoxComponent->SetWorldTransform(FTransform(FVector(10,10,10)));
 	BoxComponent->SetupAttachment(StaticMeshComponent);
+	BoxComponent->SetBoundsScale(10);
 
-	// BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ANumberBlock::OnOverlapBegin);
-	BoxComponent->OnComponentEndOverlap.AddDynamic(this, &ANumberBlock::OnOverlapEnd);
-	
+	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ANumberBlock::OnOverlapBegin);
 }
 
 // Called when the game starts or when spawned
@@ -44,17 +45,13 @@ void ANumberBlock::Tick(float DeltaTime)
 void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-}
-
-void ANumberBlock::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex)
-{
 	APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
-
-	if (Projectile != nullptr)
+	
+	if (Projectile)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Hit")));
-	}
-
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
+	} 
 }
+
+
 
