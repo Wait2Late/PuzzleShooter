@@ -49,7 +49,9 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	
 	if (Projectile)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(*"Number", *TextNumber));
+		
+		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 	} 
 }
 

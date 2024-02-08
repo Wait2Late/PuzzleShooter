@@ -31,7 +31,12 @@ protected:
 	
 
 public:
-	// Called every frame
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
+	FString TextNumber;
+
+	int* IntNumber;
+
+	
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
