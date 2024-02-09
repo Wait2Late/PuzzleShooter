@@ -3,6 +3,7 @@
 
 #include "NumberBlock.h"
 
+#include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
 #include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 
@@ -57,17 +58,26 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 {
 	APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
 
-	
+	UNumbersGameInstance* NumberGI = nullptr;	
 	
 	if (Projectile != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString::Printf(TEXT("Number: %d"), NumpadNumber));
-		
+
+
+		// bool bIsImplemented = GetGameInstance()->GetWorld()->GetClass()->ImplementsInterface(UNumbersGameInstance::StaticClass());
+		bool bIsImplemented = NumberGI->GetWorld()->GetClass()->ImplementsInterface(UNumbersGameInstance::StaticClass());
+		// bIsImplemented = Implements<UNumbersGameInstance>();
+
+		if (bIsImplemented)
+		{
+			UNumbersGameInstance::Execute_SetNumber(NumberGI, NumpadNumber);
+		}
 		// NumbersGameInstance.SetNumber_Implementation(NumpadNumber);
 		
+	
 		
 		
-		// GetGameInstance();
 
 		
 		// SetNumber_Implementation(NumpadNumber); //Not needed

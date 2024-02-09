@@ -34,10 +34,4 @@ public:
 	TArray<int> GetNumberArray();
 	
 	
-	
-	// virtual TArray<int> GetNumbers(){ return NumberCode; }
-
-	
-	// int GetNumbers(){ return }
-	
 };

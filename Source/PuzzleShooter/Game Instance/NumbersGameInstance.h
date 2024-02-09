@@ -19,7 +19,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<int> StoredNumbers;
 
-	
+	UFUNCTION(Blueprintable, BlueprintCallable)
 	virtual void SetNumber_Implementation(int AddNumber) override;
     virtual TArray<int> GetNumberArray_Implementation() override;
 
