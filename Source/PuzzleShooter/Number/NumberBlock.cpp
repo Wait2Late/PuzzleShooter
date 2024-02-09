@@ -3,6 +3,7 @@
 
 #include "NumberBlock.h"
 
+#include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterCharacter.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
 
@@ -36,6 +37,16 @@ void ANumberBlock::BeginPlay()
 	
 }
 
+void ANumberBlock::SetNumber_Implementation(int AddNumber)
+{
+	StoredNumbers.Add(AddNumber);
+}
+
+TArray<int> ANumberBlock::GetNumber_Implementation()
+{
+	return StoredNumbers;
+}
+
 // Called every frame
 void ANumberBlock::Tick(float DeltaTime)
 {
@@ -46,10 +57,13 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
-	
+
 	if (Projectile)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(*"Number", *TextNumber));
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString::Printf(TEXT("Number: %d"), NumpadNumber));
+
+		SetNumber(NumpadNumber);
+
 		
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 	} 

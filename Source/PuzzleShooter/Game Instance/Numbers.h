@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "MyClass.generated.h"
+#include "Numbers.generated.h"
 
 /**
  * 
@@ -13,4 +13,11 @@ UCLASS()
 class PUZZLESHOOTER_API UNumbers : public UGameInstance
 {
 	GENERATED_BODY()
+
+public:
+	TArray<int> NumberCode;
+
+	
+
+	
 };

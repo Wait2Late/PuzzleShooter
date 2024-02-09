@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
+#include "PuzzleShooter/Interface/GameInstanceInterface.h"
 #include "NumberBlock.generated.h"
 
 UCLASS()
-class PUZZLESHOOTER_API ANumberBlock : public AActor
+class PUZZLESHOOTER_API ANumberBlock : public AActor, public IGameInstanceInterface
 {
 	GENERATED_BODY()
 
@@ -31,11 +32,17 @@ protected:
 	
 
 public:
+	TArray<int> StoredNumbers;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	FString TextNumber;
 
-	int* IntNumber;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
+	int NumpadNumber;
 
+
+	virtual void SetNumber_Implementation(int AddNumber) override;
+	virtual TArray<int> GetNumber_Implementation() override;
 	
 	virtual void Tick(float DeltaTime) override;
 
