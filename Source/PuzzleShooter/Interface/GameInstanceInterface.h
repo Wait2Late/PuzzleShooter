@@ -31,7 +31,7 @@ public:
 	void SetNumber(int AddNumber);
 	
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	TArray<int> GetNumber();
+	TArray<int> GetNumberArray();
 	
 	
 	

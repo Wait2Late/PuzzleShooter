@@ -3,9 +3,8 @@
 
 #include "NumberBlock.h"
 
-#include "Kismet/GameplayStatics.h"
-#include "PuzzleShooter/PuzzleShooterCharacter.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
+#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 
 
 // Sets default values
@@ -37,15 +36,15 @@ void ANumberBlock::BeginPlay()
 	
 }
 
-void ANumberBlock::SetNumber_Implementation(int AddNumber)
-{
-	StoredNumbers.Add(AddNumber);
-}
-
-TArray<int> ANumberBlock::GetNumber_Implementation()
-{
-	return StoredNumbers;
-}
+// void ANumberBlock::SetNumber_Implementation(int AddNumber)
+// {
+// 	StoredNumbers.Add(AddNumber);
+// }
+//
+// TArray<int> ANumberBlock::GetNumber_Implementation()
+// {
+// 	return StoredNumbers;
+// }
 
 // Called every frame
 void ANumberBlock::Tick(float DeltaTime)
@@ -58,11 +57,20 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 {
 	APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
 
-	if (Projectile)
+	
+	
+	if (Projectile != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString::Printf(TEXT("Number: %d"), NumpadNumber));
+		
+		// NumbersGameInstance.SetNumber_Implementation(NumpadNumber);
+		
+		
+		
+		// GetGameInstance();
 
-		SetNumber(NumpadNumber);
+		
+		// SetNumber_Implementation(NumpadNumber); //Not needed
 
 		
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
