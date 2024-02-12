@@ -24,14 +24,14 @@ class PUZZLESHOOTER_API IGameInstanceInterface
 public:
 
 	
-	TArray<int> NumberCode;
-
-	
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void SetNumber(int AddNumber);
 	
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	TArray<int> GetNumberArray();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void WhateverVoid();
 	
 	
 };
