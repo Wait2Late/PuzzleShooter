@@ -58,34 +58,17 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 {
 	const APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
 
-	// UNumbersGameInstance* NumberGI = GetGameInstance(); //TODO will try to experiment with this later.
+	// UNumbersGameInstance* NumberGI = nullptr; //TODO will try to experiment with this later.
 
+	UNumbersGameInstance* NumberGI = GetGameInstance<UNumbersGameInstance>();
 	if (Projectile != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black,
 			FString::Printf(TEXT("Number: %d"), NumpadNumber));
-		// bool bIsImplemented = GetGameInstance()->GetWorld()->GetClass()->ImplementsInterface(UNumbersGameInstance::StaticClass());
-		// bool bIsImplemented = NumberGI->GetWorld()->GetClass()->ImplementsInterface(UNumbersGameInstance::StaticClass());
-		// bool bIsImplemented = Implements<UNumbersGameInstance>();
-		
+			
+		if (NumberGI->Implements<UGameInstanceInterface>()) 
+			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
 
-		// if (bIsImplemented)
-		if(IGameInstanceInterface* GameInstance = Cast<IGameInstanceInterface>(GetGameInstance()))
-		{
-			
-			GameInstance->SetNumber_Implementation(NumpadNumber);
-			GameInstance->WhateverVoid_Implementation();
-			
-			// UNumbersGameInstance::Execute_SetNumber(NumberGI, NumpadNumber);
-			// IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
-			// UNumbersGameInstance::WhateverVoid();
-			// UNumbersGameInstance::SetNumber_Implementation(NumpadNumber);
-			
-		}
-		
-		// NumbersGameInstance.SetNumber_Implementation(NumpadNumber);
-		
-		// SetNumber_Implementation(NumpadNumber); //Not needed
 
 		
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
