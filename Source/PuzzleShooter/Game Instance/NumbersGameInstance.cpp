@@ -5,10 +5,9 @@
 
 void UNumbersGameInstance::SetNumber_Implementation(int AddNumber)
 {
-
 	StoredNumbers.Add(AddNumber);
 	
-	if (StoredNumbers.Num() >= 5)
+	if (StoredNumbers.Num() > 5)
 		StoredNumbers.RemoveAt(0);
 
 }

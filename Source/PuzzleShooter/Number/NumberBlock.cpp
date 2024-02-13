@@ -3,7 +3,6 @@
 
 #include "NumberBlock.h"
 
-#include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
 #include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 
@@ -37,16 +36,6 @@ void ANumberBlock::BeginPlay()
 	
 }
 
-// void ANumberBlock::SetNumber_Implementation(int AddNumber)
-// {
-// 	StoredNumbers.Add(AddNumber);
-// }
-//
-// TArray<int> ANumberBlock::GetNumber_Implementation()
-// {
-// 	return StoredNumbers;
-// }
-
 // Called every frame
 void ANumberBlock::Tick(float DeltaTime)
 {
@@ -58,9 +47,7 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 {
 	const APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
 
-	// UNumbersGameInstance* NumberGI = nullptr; //TODO will try to experiment with this later.
-
-	UNumbersGameInstance* NumberGI = GetGameInstance<UNumbersGameInstance>();
+	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 	if (Projectile != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black,
@@ -69,8 +56,6 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		if (NumberGI->Implements<UGameInstanceInterface>()) 
 			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
 
-
-		
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 	} 
 }

@@ -32,7 +32,6 @@ protected:
 	
 
 public:
-	// TArray<int> StoredNumbers;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	FString TextNumber;
@@ -40,11 +39,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	int NumpadNumber;
 
-	// UNumbersGameInstance NumbersGameInstance;
-
-	// virtual void SetNumber_Implementation(int AddNumber) override;
-	// virtual TArray<int> GetNumber_Implementation() override;
-	
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
