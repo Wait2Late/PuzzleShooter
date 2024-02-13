@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "GameInstanceInterface.generated.h"
+#include "PlayerEvents.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(Blueprintable)
-class UGameInstanceInterface : public UInterface
+class UPlayerEvents : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,19 +16,14 @@ class UGameInstanceInterface : public UInterface
 /**
  * 
  */
-class PUZZLESHOOTER_API IGameInstanceInterface
+class PUZZLESHOOTER_API IPlayerEvents
 {
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-	
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void SetNumber(int AddNumber);
-	
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	TArray<int> GetNumberArray();
-
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+	void ConvertNumbersToText();
 	
 };
