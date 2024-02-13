@@ -46,16 +46,20 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	const APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
-
+	
 	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 	if (Projectile != nullptr)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black,
 			FString::Printf(TEXT("Number: %d"), NumpadNumber));
 			
-		if (NumberGI->Implements<UGameInstanceInterface>()) 
+		if (NumberGI->Implements<UGameInstanceInterface>())
+		{
 			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
-
+			SendToPLayer();
+		} 
+		
+		
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 	} 
 }

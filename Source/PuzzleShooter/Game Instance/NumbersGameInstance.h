@@ -24,12 +24,6 @@ public:
 	UFUNCTION(BlueprintCallable, Blueprintable)
     virtual TArray<int> GetNumberArray_Implementation() override;
 
-	virtual void WhateverVoid_Implementation() override
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black,
-			FString::Printf(TEXT("Whatever")));
-	}
-
-
+	
 	
 };

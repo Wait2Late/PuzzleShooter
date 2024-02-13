@@ -39,6 +39,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	int NumpadNumber;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void SendToPLayer();
+
+	
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()

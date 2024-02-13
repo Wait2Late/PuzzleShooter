@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "PuzzleShooterCharacter.h"
-#include "PuzzleShooterProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -10,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+#include "Game Instance/NumbersGameInstance.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -45,6 +45,8 @@ void APuzzleShooterCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+	
+	InitializeNumberZeros();
 
 	// Add Input Mapping Context
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
@@ -115,4 +117,15 @@ void APuzzleShooterCharacter::SetHasRifle(bool bNewHasRifle)
 bool APuzzleShooterCharacter::GetHasRifle()
 {
 	return bHasRifle;
+}
+
+void APuzzleShooterCharacter::InitializeNumberZeros() const
+{
+	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
+
+	for (int i = 0; i < 5; ++i)
+	{
+		if (NumberGI->Implements<UGameInstanceInterface>())
+			IGameInstanceInterface::Execute_SetNumber(NumberGI, 0);
+	}
 }
