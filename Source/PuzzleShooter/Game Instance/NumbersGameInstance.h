@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintCallable, Blueprintable)
 	virtual void C_Implementation() override;
 	UFUNCTION(BlueprintCallable, Blueprintable)
-	virtual void EraseLatestNumber_Implementation() override;
+	virtual void BackSpace_Implementation() override;
     
 
 	

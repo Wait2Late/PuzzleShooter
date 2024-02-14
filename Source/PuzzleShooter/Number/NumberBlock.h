@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
-#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
+#include "PuzzleShooter/Enum/NumpadType.h"
 #include "NumberBlock.generated.h"
 
 UCLASS()
@@ -33,14 +33,18 @@ protected:
 
 public:
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
-	FString TextNumber;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
+	// FString TextNumber;
+
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
+	// int NumpadNumber;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
-	int NumpadNumber;
+	TEnumAsByte<ENumpadType> NumpadType;
+
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void SendToPLayer();
+	void UpdateNumberUI();
 
 	
 	virtual void Tick(float DeltaTime) override;

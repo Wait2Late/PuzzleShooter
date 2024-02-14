@@ -34,5 +34,5 @@ public:
 	void C();
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void EraseLatestNumber();
+	void BackSpace();
 };
