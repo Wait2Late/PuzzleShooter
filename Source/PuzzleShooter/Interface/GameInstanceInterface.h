@@ -30,5 +30,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	TArray<int> GetNumberArray();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void C();
 	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void EraseLatestNumber();
 };

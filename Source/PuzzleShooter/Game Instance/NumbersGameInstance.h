@@ -23,6 +23,11 @@ public:
 	virtual void SetNumber_Implementation(int AddNumber) override;
 	UFUNCTION(BlueprintCallable, Blueprintable)
     virtual TArray<int> GetNumberArray_Implementation() override;
+	UFUNCTION(BlueprintCallable, Blueprintable)
+	virtual void C_Implementation() override;
+	UFUNCTION(BlueprintCallable, Blueprintable)
+	virtual void EraseLatestNumber_Implementation() override;
+    
 
 	
 	

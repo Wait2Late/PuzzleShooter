@@ -16,3 +16,17 @@ TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()
 {
 	return StoredNumbers;
 }
+
+void UNumbersGameInstance::C_Implementation()
+{
+	StoredNumbers.Empty();
+
+	if (StoredNumbers.IsEmpty())
+		for (int i = 0; i < 5; ++i)
+			SetNumber_Implementation(0);
+}
+
+void UNumbersGameInstance::EraseLatestNumber_Implementation()
+{
+	StoredNumbers.RemoveAt(0);
+}
