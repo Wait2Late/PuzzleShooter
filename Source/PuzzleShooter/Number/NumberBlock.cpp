@@ -51,10 +51,7 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	
 	if (Projectile != nullptr)
 	{
-
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
-			FString::Printf(TEXT("Numpad type: %d"), NumpadNumber));
-
+		
 		if (NumberGI->Implements<UGameInstanceInterface>())
 		{
 			switch (NumpadType)
@@ -65,23 +62,20 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 				break;
 			case ENumpadType::NumPad_C:
 				IGameInstanceInterface::Execute_C(NumberGI);
+				GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
+	FString(TEXT("ERASED")));
 				UpdateNumberUI();
 				break;
 			default:
 				IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
+				GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
+					FString::Printf(TEXT("Numpad type: %d"), NumpadNumber));
 				UpdateNumberUI();
 				break;
 			}
 		}
+		OtherActor->Destroy();
 
-		
-		// if (NumberGI->Implements<UGameInstanceInterface>() && NumpadNumber < 10)
-		// {
-		// 	IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
-		// 	SendToPLayer();
-		// }
-	
-		
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 	} 
 }

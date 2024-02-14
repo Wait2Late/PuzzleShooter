@@ -32,12 +32,6 @@ protected:
 	
 
 public:
-	
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
-	// FString TextNumber;
-
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
-	// int NumpadNumber;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	TEnumAsByte<ENumpadType> NumpadType;

@@ -35,4 +35,5 @@ void UNumbersGameInstance::C_Implementation()
 void UNumbersGameInstance::BackSpace_Implementation()
 {
 	StoredNumbers.RemoveAt(0);
+	// SetNumber_Implementation(0);
 }
