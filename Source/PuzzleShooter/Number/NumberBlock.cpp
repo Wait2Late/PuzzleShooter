@@ -51,7 +51,6 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	
 	if (Projectile != nullptr)
 	{
-		
 		if (NumberGI->Implements<UGameInstanceInterface>())
 		{
 			switch (NumpadType)

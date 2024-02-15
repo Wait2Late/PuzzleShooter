@@ -9,7 +9,7 @@
 #include "NumberBlock.generated.h"
 
 UCLASS()
-class PUZZLESHOOTER_API ANumberBlock : public AActor/*, public IGameInstanceInterface*/
+class PUZZLESHOOTER_API ANumberBlock : public AActor
 {
 	GENERATED_BODY()
 
