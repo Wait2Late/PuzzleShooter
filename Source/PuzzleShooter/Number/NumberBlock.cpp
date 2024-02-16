@@ -74,7 +74,6 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			}
 		}
 		OtherActor->Destroy();
-
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 	} 
 }
