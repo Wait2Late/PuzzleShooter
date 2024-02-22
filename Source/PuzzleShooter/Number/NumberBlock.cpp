@@ -34,6 +34,7 @@ void ANumberBlock::BeginPlay()
 {
 	Super::BeginPlay();
 	
+
 }
 
 // Called every frame
@@ -56,12 +57,14 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			{
 			case ENumpadType::NumPad_Backspace:
 				IGameInstanceInterface::Execute_BackSpace(NumberGI);
+				GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
+					FString(TEXT("BACKSPACE")));
 				UpdateNumberUI();
 				break;
 			case ENumpadType::NumPad_C:
 				IGameInstanceInterface::Execute_C(NumberGI);
 				GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
-	FString(TEXT("ERASED")));
+					FString(TEXT("ERASED")));
 				UpdateNumberUI();
 				break;
 			default:

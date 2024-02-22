@@ -123,9 +123,10 @@ void APuzzleShooterCharacter::InitializeNumberZeros() const
 {
 	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 
-	for (int i = 0; i < 5; ++i)
-	{
+	// for (int i = 0; i < 5; ++i)
+	// {
 		if (NumberGI->Implements<UGameInstanceInterface>())
-			IGameInstanceInterface::Execute_SetNumber(NumberGI, 0);
-	}
+			IGameInstanceInterface::Execute_C(NumberGI);
+			// IGameInstanceInterface::Execute_SetNumber(NumberGI, 0);
+	// }
 }

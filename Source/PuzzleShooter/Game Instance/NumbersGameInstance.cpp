@@ -5,14 +5,10 @@
 
 void UNumbersGameInstance::SetNumber_Implementation(int AddNumber)
 {
-	StoredNumbers.Add(AddNumber);
-	
-	if (StoredNumbers.Num() > 5)
-	{
-		StoredNumbers.RemoveAt(0);
-		// StoredNumbers.Shrink();
-	}
+	///
 
+	StoredNumbers.RemoveAt(4);
+	StoredNumbers.Insert(AddNumber,0);
 }
 
 TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()
@@ -22,18 +18,13 @@ TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()
 
 void UNumbersGameInstance::C_Implementation()
 {
-	StoredNumbers.Empty();
-
-	if (StoredNumbers.IsEmpty())
-	{
-		for (int i = 0; i < 5; ++i)
-			SetNumber_Implementation(0);
-	}
-	
+	StoredNumbers.Init(0, 5);
+	StoredNumbers.SetNum(5);
 }
 
 void UNumbersGameInstance::BackSpace_Implementation()
 {
 	StoredNumbers.RemoveAt(0);
-	// SetNumber_Implementation(0);
+	StoredNumbers.Insert(0, 0);
 }
+

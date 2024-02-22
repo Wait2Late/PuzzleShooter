@@ -27,8 +27,6 @@ public:
 	virtual void C_Implementation() override;
 	UFUNCTION(BlueprintCallable, Blueprintable)
 	virtual void BackSpace_Implementation() override;
-    
-
 	
 	
 };
