@@ -45,11 +45,10 @@ void ANumberBlock::Tick(float DeltaTime)
 void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const APuzzleShooterProjectile* Projectile = Cast<APuzzleShooterProjectile>(OtherActor);
 	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 	const int NumpadNumber = NumpadType.GetIntValue();
-	
-	if (Projectile != nullptr)
+
+	if (OtherActor->Implements<UHitNumberBlock>())
 	{
 		if (NumberGI->Implements<UGameInstanceInterface>())
 		{
@@ -75,7 +74,13 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		}
 		OtherActor->Destroy();
 		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
-	} 
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Orange,
+FString(TEXT("Projectile is not impelemented")));
+
+	}
 }
 
 

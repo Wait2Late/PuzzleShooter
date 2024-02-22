@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Interface/HitNumberBlock.h"
 #include "PuzzleShooterProjectile.generated.h"
 
 class USphereComponent;
 class UProjectileMovementComponent;
 
 UCLASS(config=Game)
-class APuzzleShooterProjectile : public AActor
+class APuzzleShooterProjectile : public AActor, public IHitNumberBlock
 {
 	GENERATED_BODY()
 
