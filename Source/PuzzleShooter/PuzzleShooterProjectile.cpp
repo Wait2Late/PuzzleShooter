@@ -36,17 +36,6 @@ APuzzleShooterProjectile::APuzzleShooterProjectile()
 
 void APuzzleShooterProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	ANumberBlock* NumberBlock = Cast<ANumberBlock>(OtherActor);
-
-	// if (NumberBlock)
-	// {
-	// 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Hit")));
-	//
-	// }
-	// Only add impulse and destroy projectile if we hit a physics
-	// FString OtherActorClassName = OtherActor->GetClass()->GetName();
-	// GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Black, FString(TEXT("Unknown actor OtherActorClassName: ")) + OtherActorClassName);
-	
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());

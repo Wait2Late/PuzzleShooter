@@ -25,7 +25,7 @@ ANumberBlock::ANumberBlock()
 	BoxComponent->SetWorldTransform(FTransform(FVector(10,10,10)));
 	BoxComponent->SetupAttachment(StaticMeshComponent);
 	BoxComponent->SetBoundsScale(10);
-
+	
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ANumberBlock::OnOverlapBegin);
 }
 
@@ -33,8 +33,6 @@ ANumberBlock::ANumberBlock()
 void ANumberBlock::BeginPlay()
 {
 	Super::BeginPlay();
-	
-
 }
 
 // Called every frame
@@ -49,41 +47,32 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 	const int NumpadNumber = NumpadType.GetIntValue();
 
-	if (OtherActor->Implements<UHitNumberBlock>())
+	if (OtherActor->Implements<UHitNumberBlock>() && NumberGI->Implements<UGameInstanceInterface>())
 	{
-		if (NumberGI->Implements<UGameInstanceInterface>())
+		switch (NumpadType)
 		{
-			switch (NumpadType)
-			{
-			case ENumpadType::NumPad_Backspace:
-				IGameInstanceInterface::Execute_BackSpace(NumberGI);
-				GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
-					FString(TEXT("BACKSPACE")));
-				UpdateNumberUI();
-				break;
-			case ENumpadType::NumPad_C:
-				IGameInstanceInterface::Execute_C(NumberGI);
-				GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
-					FString(TEXT("ERASED")));
-				UpdateNumberUI();
-				break;
-			default:
-				IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
-				GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
-					FString::Printf(TEXT("Numpad type: %d"), NumpadNumber));
-				UpdateNumberUI();
-				break;
-			}
+		/* case ENumpadType::NumPad_Backspace:
+		// 	IGameInstanceInterface::Execute_BackSpace(NumberGI);
+		// 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
+		// 		FString(TEXT("BACKSPACE")));
+		// 	UpdateNumberUI();
+		// 	break;*/
+		case ENumpadType::NumPad_C:
+			IGameInstanceInterface::Execute_C(NumberGI);
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
+				FString(TEXT("ERASED")));
+			UpdateNumberUI();
+			break;
+		default:
+			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
+				FString::Printf(TEXT("Numpad type: %d"), NumpadNumber));
+			UpdateNumberUI();
+			break;
 		}
 		OtherActor->Destroy();
-		// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Orange,
-FString(TEXT("Projectile is not impelemented")));
-
-	}
+	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 }
 
 
