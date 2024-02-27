@@ -29,6 +29,8 @@ public:
 	virtual void BackSpace_Implementation() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void CheckPassword();
-	
+	void UpdateNumbersUI();
+private:
+	int CurrentIndex = 0;
+	int MaxArraySize = 5;
 };

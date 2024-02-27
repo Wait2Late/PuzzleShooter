@@ -5,26 +5,36 @@
 
 void UNumbersGameInstance::SetNumber_Implementation(int AddNumber)
 {
-	StoredNumbers.RemoveAt(StoredNumbers.Max() - 1);
-	StoredNumbers.Insert(AddNumber,0);
-
-	CheckPassword();
-}
-
-TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()
-{
-	return StoredNumbers;
+	StoredNumbers.Insert(AddNumber, CurrentIndex);
+	
+	if (StoredNumbers.Num() > MaxArraySize)
+		StoredNumbers.SetNum(MaxArraySize);
+	
+	CurrentIndex++;
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black,
+		FString::Printf(TEXT("Current Index: %d"), CurrentIndex));
+	
+	if (CurrentIndex == MaxArraySize)
+	{
+		StoredNumbers.SetNum(MaxArraySize);
+	}
+	if (CurrentIndex > MaxArraySize)
+	{
+		C_Implementation();
+	}
 }
 
 void UNumbersGameInstance::C_Implementation()
 {
-	StoredNumbers.SetNum(5);
-	StoredNumbers.Init(0, 5);
+	CurrentIndex = 0;
+	StoredNumbers.SetNum(MaxArraySize);
+	StoredNumbers.Init(CurrentIndex, MaxArraySize);
 }
 
 void UNumbersGameInstance::BackSpace_Implementation()
 {
-	//Might come back for later. Unsure how complex it will be?
+	CurrentIndex = 0;
+	//TODO Might come back for later. Unsure how complex it will be?
 	int index;
 	StoredNumbers.Find(0, index);
 	StoredNumbers.Contains(0);
@@ -34,3 +44,7 @@ void UNumbersGameInstance::BackSpace_Implementation()
 	StoredNumbers.Insert(0, 0);
 }
 
+TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()
+{
+	return StoredNumbers;
+}

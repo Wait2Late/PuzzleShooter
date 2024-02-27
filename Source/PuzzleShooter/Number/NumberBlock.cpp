@@ -4,7 +4,6 @@
 #include "NumberBlock.h"
 
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
-#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 
 
 // Sets default values
@@ -35,6 +34,9 @@ void ANumberBlock::BeginPlay()
 	Super::BeginPlay();
 }
 
+
+
+
 // Called every frame
 void ANumberBlock::Tick(float DeltaTime)
 {
@@ -58,10 +60,7 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		// 	UpdateNumberUI();
 		// 	break;*/
 		case ENumpadType::NumPad_C:
-			IGameInstanceInterface::Execute_C(NumberGI);
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
-				FString(TEXT("ERASED")));
-			UpdateNumberUI();
+			C_Erasure(NumberGI);
 			break;
 		default:
 			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
@@ -73,6 +72,14 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		OtherActor->Destroy();
 	}
 	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
+}
+
+void ANumberBlock::C_Erasure(UNumbersGameInstance* NumberGI)
+{
+	IGameInstanceInterface::Execute_C(NumberGI);
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
+		FString(TEXT("ERASED")));
+	UpdateNumberUI();
 }
 
 
