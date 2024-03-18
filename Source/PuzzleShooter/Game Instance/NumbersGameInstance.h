@@ -18,6 +18,8 @@ class PUZZLESHOOTER_API UNumbersGameInstance : public UGameInstance, public IGam
 public:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<int> StoredNumbers;
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsNumbersErased;
 
 	UFUNCTION(BlueprintCallable, Blueprintable)
 	virtual void SetNumber_Implementation(int AddNumber) override;
@@ -27,10 +29,14 @@ public:
 	virtual void C_Implementation() override;
 	UFUNCTION(BlueprintCallable, Blueprintable)
 	virtual void BackSpace_Implementation() override;
-
+	UFUNCTION(BlueprintCallable, Blueprintable)
+	virtual int GetCurrentIndex_Implementation() override;
+	UFUNCTION(BlueprintCallable, Blueprintable)
+	virtual bool GetIsNumbersErased_Implementation() override;
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateNumbersUI();
 private:
 	int CurrentIndex = 0;
-	int MaxArraySize = 5;
+	const int MaxArraySize = 5;
 };

@@ -62,7 +62,7 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		case ENumpadType::NumPad_C:
 			C_Erasure(NumberGI);
 			break;
-		default:
+		default: //default is a numbered pad
 			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
 				FString::Printf(TEXT("Numpad type: %d"), NumpadNumber));

@@ -35,4 +35,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void BackSpace();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	int GetCurrentIndex();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool GetIsNumbersErased();
 };

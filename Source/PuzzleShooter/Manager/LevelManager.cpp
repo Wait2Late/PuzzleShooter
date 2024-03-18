@@ -3,6 +3,8 @@
 
 #include "LevelManager.h"
 
+#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
+
 
 // Sets default values
 ALevelManager::ALevelManager()
@@ -22,5 +24,23 @@ void ALevelManager::BeginPlay()
 void ALevelManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+bool ALevelManager::PasswordIsValid(TArray<int> LevelPassword)
+{
+	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
+
+	TArray<int> StoredNumbers = IGameInstanceInterface::Execute_GetNumberArray(NumberGI);
+
+	if (LevelPassword.Num() != StoredNumbers.Num())
+		return false;
+
+	for (int i = 0; i < LevelPassword.Num(); ++i)
+	{
+		if (LevelPassword[i] != StoredNumbers[i])
+			return false;
+	}
+
+	return true;
 }
 

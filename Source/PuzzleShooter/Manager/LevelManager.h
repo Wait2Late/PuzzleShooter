@@ -27,5 +27,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "LevelZone Category")
 	TEnumAsByte<ELevelZoneType> LevelZoneType;
 
+	UFUNCTION(BlueprintCallable)
+	bool PasswordIsValid(TArray<int> LevelPassword);
 	
 };
