@@ -5,17 +5,16 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enum/LevelZoneType.h"
-#include "PuzzleShooter/Struct/Data Tables/PuzzleLevels.h"
-#include "LevelManager.generated.h"
+#include "Door.generated.h"
 
 UCLASS()
-class PUZZLESHOOTER_API ALevelManager : public AActor
+class PUZZLESHOOTER_API ADoor : public AActor
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this actor's properties
-	ALevelManager();
+	ADoor();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,9 +24,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable)
-	bool IsPasswordValid(TArray<int> LevelPassword);
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LevelZone Category")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TEnumAsByte<ELevelZoneType> LevelZone;
+	
 };
+
+

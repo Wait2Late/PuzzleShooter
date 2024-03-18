@@ -17,7 +17,6 @@ ALevelManager::ALevelManager()
 void ALevelManager::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -26,7 +25,7 @@ void ALevelManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-bool ALevelManager::PasswordIsValid(TArray<int> LevelPassword)
+bool ALevelManager::IsPasswordValid(TArray<int> LevelPassword)
 {
 	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 

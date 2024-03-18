@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PuzzleShooter/Enum/LevelZoneType.h"
 #include "UObject/Interface.h"
 #include "GameInstanceInterface.generated.h"
 
@@ -41,4 +42,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool GetIsNumbersErased();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	ELevelZoneType GetLevelZone();
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void SetLevelZone(ELevelZoneType SetLevelZone);
 };

@@ -10,7 +10,7 @@ void UNumbersGameInstance::SetNumber_Implementation(int AddNumber)
 	StoredNumbers.Insert(AddNumber, CurrentIndex);
 	CurrentIndex++;
 	
-	if (StoredNumbers.Num() > MaxArraySize)
+	if (StoredNumbers.Num() > MaxArraySize) 
 		StoredNumbers.SetNum(MaxArraySize);
 	
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black,
@@ -28,7 +28,7 @@ void UNumbersGameInstance::C_Implementation()
 	StoredNumbers.SetNum(MaxArraySize);
 	StoredNumbers.Init(CurrentIndex, MaxArraySize);
 
-	bIsNumbersErased = true;
+	bIsNumbersErased = true; 
 }
 
 void UNumbersGameInstance::BackSpace_Implementation()
@@ -51,6 +51,16 @@ int UNumbersGameInstance::GetCurrentIndex_Implementation()
 bool UNumbersGameInstance::GetIsNumbersErased_Implementation()
 {
 	return bIsNumbersErased;
+}
+
+ELevelZoneType UNumbersGameInstance::GetLevelZone_Implementation()
+{
+	return LevelZone;
+}
+
+void UNumbersGameInstance::SetLevelZone_Implementation(ELevelZoneType SetLevelZone)
+{
+	LevelZone = SetLevelZone;
 }
 
 TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()
