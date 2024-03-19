@@ -25,7 +25,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	TEnumAsByte<ELevelZoneType> LevelZone;
+	TEnumAsByte<ELevelZoneType> DoorLevelZone;
 	
 };
 
