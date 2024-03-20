@@ -60,7 +60,7 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		// 	UpdateNumberUI();
 		// 	break;*/
 		case ENumpadType::NumPad_C:
-			C_Erasure(NumberGI);
+			C_Erasure();
 			break;
 		default: //default is a numbered pad
 			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
@@ -74,12 +74,15 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 }
 
-void ANumberBlock::C_Erasure(UNumbersGameInstance* NumberGI)
+void ANumberBlock::C_Erasure()
 {
+	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 	IGameInstanceInterface::Execute_C(NumberGI);
+	
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
 		FString(TEXT("ERASED")));
-	UpdateNumberUI();
+
+	UpdateNumberUI(); 
 }
 
 

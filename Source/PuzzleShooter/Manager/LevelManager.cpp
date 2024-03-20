@@ -40,6 +40,10 @@ bool ALevelManager::IsPasswordValid(TArray<int> LevelPassword)
 			return false;
 	}
 
+	// const bool AnswerIsCorrect = IGameInstanceInterface::Execute_IsAnswerCorrect(NumberGI, true);
+	
+	GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Green,
+		FString::Printf(TEXT("The answer is correct!")));
 	return true;
 }
 

@@ -39,10 +39,14 @@ public:
 	virtual ELevelZoneType GetLevelZone_Implementation() override;
 	UFUNCTION(BlueprintCallable, Blueprintable)
 	virtual void SetLevelZone_Implementation(ELevelZoneType SetLevelZone) override;
+	UFUNCTION(BlueprintCallable, Blueprintable)
+	virtual bool IsAnswerCorrect_Implementation(bool CheckPassword) override;
 	
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateNumbersUI();
+	UFUNCTION(BlueprintImplementableEvent, Blueprintable)
+	void UpdateZeros();
 private:
 	int CurrentIndex = 0;
 	const int MaxArraySize = 5;

@@ -3,6 +3,9 @@
 
 #include "NumbersGameInstance.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "PuzzleShooter/Number/NumberBlock.h"
+
 void UNumbersGameInstance::SetNumber_Implementation(int AddNumber)
 {
 	bIsNumbersErased = false;
@@ -28,7 +31,9 @@ void UNumbersGameInstance::C_Implementation()
 	StoredNumbers.SetNum(MaxArraySize);
 	StoredNumbers.Init(CurrentIndex, MaxArraySize);
 
-	bIsNumbersErased = true; 
+	bIsNumbersErased = true;
+	
+	// UpdateNumbersUI(); //Might not need this
 }
 
 void UNumbersGameInstance::BackSpace_Implementation()
@@ -61,6 +66,26 @@ ELevelZoneType UNumbersGameInstance::GetLevelZone_Implementation()
 void UNumbersGameInstance::SetLevelZone_Implementation(ELevelZoneType SetLevelZone)
 {
 	LevelZone = SetLevelZone;
+}
+
+bool UNumbersGameInstance::IsAnswerCorrect_Implementation(bool CheckPassword)
+{
+	if (CheckPassword)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Green,
+			FString::Printf(TEXT("The answer is correct!")));
+
+		
+		// FTimerHandle TimerHandle;
+		// GetWorld()->GetTimerManager().SetTimer(
+		// 	TimerHandle, this, &UNumbersGameInstance::C_Implementation,
+		// 	0, false, 2.0f);
+
+
+		UpdateZeros();
+	}
+	
+	return CheckPassword;
 }
 
 TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()

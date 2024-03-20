@@ -6,7 +6,6 @@
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enum/NumpadType.h"
-#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 #include "NumberBlock.generated.h"
 
 UCLASS()
@@ -42,7 +41,7 @@ public:
 	void UpdateNumberUI();
 
 	UFUNCTION(BlueprintCallable)
-	void C_Erasure(UNumbersGameInstance* NumberGI);
+	void C_Erasure();
 
 	
 	virtual void Tick(float DeltaTime) override;
