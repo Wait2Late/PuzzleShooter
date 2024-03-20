@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/TimelineComponent.h"
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enum/LevelZoneType.h"
 #include "Door.generated.h"
@@ -26,6 +27,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TEnumAsByte<ELevelZoneType> DoorLevelZone;
+
+	// UFUNCTION(BlueprintCallable)
+	// void ReversingTimeline(UTimelineComponent DoorTimeline);
 	
 };
 

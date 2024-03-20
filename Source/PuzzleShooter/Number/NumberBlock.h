@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Numpad.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
+#include "PuzzleShooter/Enum/LevelZoneType.h"
 #include "PuzzleShooter/Enum/NumpadType.h"
 #include "NumberBlock.generated.h"
 
@@ -12,6 +14,7 @@ UCLASS()
 class PUZZLESHOOTER_API ANumberBlock : public AActor
 {
 	GENERATED_BODY()
+
 
 public:
 	// Sets default values for this actor's properties
@@ -36,13 +39,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	TEnumAsByte<ENumpadType> NumpadType;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
+	TEnumAsByte<ELevelZoneType> LevelZone;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateNumberUI();
 
 	UFUNCTION(BlueprintCallable)
 	void C_Erasure();
-
 	
 	virtual void Tick(float DeltaTime) override;
 
@@ -56,5 +60,9 @@ public:
 		const FHitResult& SweepResult
 		);
 
+private:
+	
+	// UFUNCTION()
+	// void OnInitializeLevelZone();
 
 };

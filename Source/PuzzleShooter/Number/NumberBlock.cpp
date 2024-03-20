@@ -3,7 +3,11 @@
 
 #include "NumberBlock.h"
 
+#include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
+#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
+
+
 
 
 // Sets default values
@@ -32,6 +36,9 @@ ANumberBlock::ANumberBlock()
 void ANumberBlock::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
+	// OnInitializeLevelZone();
 }
 
 
@@ -69,7 +76,15 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			UpdateNumberUI();
 			break;
 		}
+		
+
+
+
+
+		
+		
 		OtherActor->Destroy();
+
 	}
 	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 }
@@ -85,5 +100,24 @@ void ANumberBlock::C_Erasure()
 	UpdateNumberUI(); 
 }
 
-
-
+// void ANumberBlock::OnInitializeLevelZone()
+// {
+// 	TArray<AActor*> OutActors;
+//
+// 	const TSubclassOf<ANumpad> NumPad;
+// 	
+// 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumPad, OutActors);
+//
+// 	const AActor* ParentAttachedActor = this->GetAttachParentActor();
+//
+// 	for (const auto OutActor : OutActors)
+// 	{
+// 		if (OutActor == ParentAttachedActor)
+// 		{
+//
+// 			ANumpad* NumpadActor = NumPad.GetDefaultObject();;
+// 			LevelZone = NumpadActor->GetLevelZone();
+// 		}
+// 	}
+// 	
+// }

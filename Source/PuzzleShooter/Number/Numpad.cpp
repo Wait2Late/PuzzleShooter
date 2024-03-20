@@ -24,3 +24,8 @@ void ANumpad::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+// ELevelZoneType ANumpad::GetLevelZone()
+// {
+// 	return LevelZone;
+// }
+
