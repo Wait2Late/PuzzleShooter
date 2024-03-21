@@ -3,6 +3,7 @@
 
 #include "NumberBlock.h"
 
+#include "Numpad.h"
 #include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
 #include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
@@ -54,9 +55,13 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
-	const int NumpadNumber = NumpadType.GetIntValue();
 
-	if (OtherActor->Implements<UHitNumberBlock>() && NumberGI->Implements<UGameInstanceInterface>())
+	const int NumpadNumber = NumpadType.GetIntValue();
+	const ELevelZoneType CurrentLevelZone = IGameInstanceInterface::Execute_GetLevelZone(NumberGI);
+	
+	if (CurrentLevelZone == this->LevelZone &&
+		OtherActor->Implements<UHitNumberBlock>() &&
+		NumberGI->Implements<UGameInstanceInterface>())
 	{
 		switch (NumpadType)
 		{
@@ -77,14 +82,7 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			break;
 		}
 		
-
-
-
-
-		
-		
 		OtherActor->Destroy();
-
 	}
 	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 }
@@ -100,24 +98,33 @@ void ANumberBlock::C_Erasure()
 	UpdateNumberUI(); 
 }
 
-// void ANumberBlock::OnInitializeLevelZone()
-// {
-// 	TArray<AActor*> OutActors;
-//
-// 	const TSubclassOf<ANumpad> NumPad;
-// 	
-// 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumPad, OutActors);
-//
-// 	const AActor* ParentAttachedActor = this->GetAttachParentActor();
-//
-// 	for (const auto OutActor : OutActors)
-// 	{
-// 		if (OutActor == ParentAttachedActor)
-// 		{
-//
-// 			ANumpad* NumpadActor = NumPad.GetDefaultObject();;
-// 			LevelZone = NumpadActor->GetLevelZone();
-// 		}
-// 	}
-// 	
-// }
+void ANumberBlock::OnInitializeLevelZone()
+{
+	TArray<AActor*> OutActors;
+
+	const TSubclassOf<ANumpad> NumPad;
+	
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumPad, OutActors);
+
+	// GetAllChildActors()
+	const AActor* ParentAttachedActor = this->GetAttachParentActor();
+
+	for (const auto OutActor : OutActors)
+	{
+		if (OutActor == ParentAttachedActor)
+		{
+			// OutActors->
+			// OutActors[0]->GetDefaultSubobjects(OutActors->);
+			
+			ANumpad* NumpadActor = NumPad.GetDefaultObject();
+			LevelZone = NumpadActor->GetLevelZone();
+		}
+	}
+
+	for (int i = 0; i < OutActors.Num(); ++i)
+	{
+		OutActors[i]->GetDefaultAttachComponent();
+		
+	}
+	
+}

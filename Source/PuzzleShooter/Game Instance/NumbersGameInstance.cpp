@@ -3,7 +3,6 @@
 
 #include "NumbersGameInstance.h"
 
-#include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/Number/NumberBlock.h"
 
 void UNumbersGameInstance::SetNumber_Implementation(int AddNumber)
@@ -13,12 +12,12 @@ void UNumbersGameInstance::SetNumber_Implementation(int AddNumber)
 	StoredNumbers.Insert(AddNumber, CurrentIndex);
 	CurrentIndex++;
 	
-	if (StoredNumbers.Num() > MaxArraySize) 
+	if (StoredNumbers.Num() > MaxArraySize)
 		StoredNumbers.SetNum(MaxArraySize);
-	
-	
+
 	if (CurrentIndex == MaxArraySize)
 		StoredNumbers.SetNum(MaxArraySize);
+
 	if (CurrentIndex > MaxArraySize)
 		C_Implementation();
 

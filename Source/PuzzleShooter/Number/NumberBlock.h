@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Numpad.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enum/LevelZoneType.h"
@@ -61,8 +60,7 @@ public:
 		);
 
 private:
-	
-	// UFUNCTION()
-	// void OnInitializeLevelZone();
+	UFUNCTION()
+	void OnInitializeLevelZone();
 
 };
