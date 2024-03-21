@@ -48,7 +48,6 @@ public:
 	void C_Erasure();
 	
 	virtual void Tick(float DeltaTime) override;
-
 	UFUNCTION()
 	virtual void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,

@@ -34,11 +34,6 @@ ELevelZoneType ANumpad::GetLevelZone()
 
 void ANumpad::OnInitializeSetAllChildrenLevelZone()
 {
-
-	// UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
-
-	// TArray<int> StoredNumbers = IGameInstanceInterface::Execute_GetNumberArray(NumberGI);
-
 	TArray<AActor*> OutActors;
 	TArray<AActor*> ChildActors;
 
@@ -46,35 +41,18 @@ void ANumpad::OnInitializeSetAllChildrenLevelZone()
 	
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumberBlock, OutActors);
 
+	
 	GetAllChildActors(ChildActors);
 
-	ANumberBlock* NumBlock = NumberBlock.GetDefaultObject();
 	
-	for (const auto OutActor : OutActors)
+	for (const AActor* OutActor : OutActors)
 	{
-		for (const auto OutChildActor : ChildActors)
+		for (const AActor* OutChildActor : ChildActors)
 		{
 			if (OutChildActor == OutActor)
 			{
-				if (OutChildActor == NumBlock)
-				{
-					NumBlock->LevelZone = this->LevelZone;
-				}
 			}
 		}
 	}
-	
-	// for (int i = 0; i < ChildActors.Num(); ++i)
-	// {
-	// 	if (OutActors[i] == ChildActors[i])
-	// 	{
-	// 		ANumberBlock* NumBlock = NumberBlock.GetDefaultObject();
-	// 		NumBlock->NumBlockLevelZone = this->LevelZone;
-	// 	}
-	// }
-
-	// GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Green,
-	// 	FString::Printf(TEXT("The answer is correct!")));
-
 }
 
