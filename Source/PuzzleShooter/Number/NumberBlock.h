@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	TEnumAsByte<ELevelZoneType> LevelZone;
 
+	TEnumAsByte<ELevelZoneType> localLevelZone;
+	TEnumAsByte<ELevelZoneType> localLevelZone2;
+	
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateNumberUI();
 

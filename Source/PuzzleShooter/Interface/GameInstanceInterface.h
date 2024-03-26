@@ -43,11 +43,11 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool GetIsNumbersErased();
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	ELevelZoneType GetLevelZone();
-
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void SetLevelZone(ELevelZoneType SetLevelZone);
+	// UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	// ELevelZoneType GetLevelZone();
+	//
+	// UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	// void SetLevelZone(ELevelZoneType SetLevelZone);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool IsAnswerCorrect(bool CheckPassword);

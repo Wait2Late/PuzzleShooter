@@ -7,8 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
 #include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
-
-
+#include "../Subsystems/LevelZoneSubsystem.h"
 
 
 // Sets default values
@@ -54,15 +53,20 @@ void ANumberBlock::Tick(float DeltaTime)
 void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
+	UNumbersGameInstance* NumberGI = GetGameInstance<UNumbersGameInstance>();
 
-	const int NumpadNumber = NumpadType.GetIntValue();
-	const ELevelZoneType CurrentLevelZone = IGameInstanceInterface::Execute_GetLevelZone(NumberGI);
 	
+
+	
+	const ULevelZoneSubsystem* levelZoneSubsystem = GetGameInstance<UNumbersGameInstance>()->GetSubsystem<ULevelZoneSubsystem>();
+	const TEnumAsByte<ELevelZoneType> CurrentLevelZone = levelZoneSubsystem->CurrentLevelZone;
+	
+
 	if (CurrentLevelZone == this->LevelZone &&
 		OtherActor->Implements<UHitNumberBlock>() &&
 		NumberGI->Implements<UGameInstanceInterface>())
 	{
+		const int NumpadNumber = NumpadType.GetIntValue();
 		switch (NumpadType)
 		{
 		/* case ENumpadType::NumPad_Backspace:
@@ -78,10 +82,10 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
 				FString::Printf(TEXT("Numpad type: %d"), NumpadNumber));
-			UpdateNumberUI();
 			break;
 		}
 		
+		UpdateNumberUI();
 		OtherActor->Destroy();
 	}
 	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
@@ -95,7 +99,7 @@ void ANumberBlock::C_Erasure()
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
 		FString(TEXT("ERASED")));
 
-	UpdateNumberUI(); 
+	// UpdateNumberUI(); 
 }
 
 void ANumberBlock::OnInitializeLevelZone()

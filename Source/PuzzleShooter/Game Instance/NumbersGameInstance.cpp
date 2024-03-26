@@ -58,15 +58,15 @@ bool UNumbersGameInstance::GetIsNumbersErased_Implementation()
 	return bIsNumbersErased;
 }
 
-ELevelZoneType UNumbersGameInstance::GetLevelZone_Implementation()
-{
-	return LevelZone;
-}
-
-void UNumbersGameInstance::SetLevelZone_Implementation(ELevelZoneType SetLevelZone)
-{
-	LevelZone = SetLevelZone;
-}
+// ELevelZoneType UNumbersGameInstance::GetLevelZone_Implementation()
+// {
+// 	return LevelZone;
+// }
+//
+// void UNumbersGameInstance::SetLevelZone_Implementation(ELevelZoneType SetLevelZone)
+// {
+// 	LevelZone = SetLevelZone;
+// }
 
 bool UNumbersGameInstance::IsAnswerCorrect_Implementation(bool CheckPassword)
 {

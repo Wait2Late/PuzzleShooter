@@ -18,8 +18,8 @@ class PUZZLESHOOTER_API UNumbersGameInstance : public UGameInstance, public IGam
 public:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<int> StoredNumbers;
-	UPROPERTY(BlueprintReadWrite)
-	TEnumAsByte<ELevelZoneType> LevelZone;
+	// UPROPERTY(BlueprintReadWrite)
+	// TEnumAsByte<ELevelZoneType> LevelZone;
 	UPROPERTY(BlueprintReadOnly)
 	bool bIsNumbersErased;
 
@@ -35,10 +35,10 @@ public:
 	virtual int GetCurrentIndex_Implementation() override;
 	UFUNCTION(BlueprintCallable, Blueprintable)
 	virtual bool GetIsNumbersErased_Implementation() override;
-	UFUNCTION(BlueprintCallable, Blueprintable)
-	virtual ELevelZoneType GetLevelZone_Implementation() override;
-	UFUNCTION(BlueprintCallable, Blueprintable)
-	virtual void SetLevelZone_Implementation(ELevelZoneType SetLevelZone) override;
+	// UFUNCTION(BlueprintCallable, Blueprintable)
+	// virtual ELevelZoneType GetLevelZone_Implementation() override;
+	// UFUNCTION(BlueprintCallable, Blueprintable)
+	// virtual void SetLevelZone_Implementation(ELevelZoneType SetLevelZone) override;
 	UFUNCTION(BlueprintCallable, Blueprintable)
 	virtual bool IsAnswerCorrect_Implementation(bool CheckPassword) override;
 	
