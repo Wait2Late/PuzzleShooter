@@ -60,12 +60,12 @@ bool UNumbersGameInstance::GetIsNumbersErased_Implementation()
 
 // ELevelZoneType UNumbersGameInstance::GetLevelZone_Implementation()
 // {
-// 	return LevelZone;
+// 	return CurrentLevelZone;
 // }
 //
 // void UNumbersGameInstance::SetLevelZone_Implementation(ELevelZoneType SetLevelZone)
 // {
-// 	LevelZone = SetLevelZone;
+// 	CurrentLevelZone = SetLevelZone;
 // }
 
 bool UNumbersGameInstance::IsAnswerCorrect_Implementation(bool CheckPassword)

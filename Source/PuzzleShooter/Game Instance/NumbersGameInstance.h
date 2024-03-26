@@ -19,7 +19,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	TArray<int> StoredNumbers;
 	// UPROPERTY(BlueprintReadWrite)
-	// TEnumAsByte<ELevelZoneType> LevelZone;
+	// TEnumAsByte<ELevelZoneType> CurrentLevelZone;
 	UPROPERTY(BlueprintReadOnly)
 	bool bIsNumbersErased;
 
