@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PuzzleShooter/Manager/WaveManager.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "TestWorldSubsystem.generated.h"
 
@@ -20,5 +21,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DoSomething();
+
+	UFUNCTION(BlueprintCallable)
+	void OnInstantiateWaveManager(TSubclassOf<AWaveManager> WaveManager);
 	
 };
