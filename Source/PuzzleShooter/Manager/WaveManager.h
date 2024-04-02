@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Info.h"
+// #include "GameFramework/Info.h" // Might revert to AInfo again.
+#include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enemy/EnemyBase.h"
 #include "PuzzleShooter/Struct/EnemyWave.h"
 #include "WaveManager.generated.h"
 
 UCLASS()
-class PUZZLESHOOTER_API AWaveManager : public AInfo
+class PUZZLESHOOTER_API AWaveManager : public AActor
 {
 	GENERATED_BODY()
 

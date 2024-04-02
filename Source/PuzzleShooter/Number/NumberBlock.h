@@ -41,8 +41,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	TEnumAsByte<ELevelZoneType> LevelZone;
 
-	TEnumAsByte<ELevelZoneType> localLevelZone;
-	TEnumAsByte<ELevelZoneType> localLevelZone2;
+	TEnumAsByte<ELevelZoneType> LocalLevelZone;
+	TEnumAsByte<ELevelZoneType> LocalLevelZone2;
+
+	
 	
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateNumberUI();
@@ -51,6 +53,7 @@ public:
 	void C_Erasure();
 	
 	virtual void Tick(float DeltaTime) override;
+	
 	UFUNCTION()
 	virtual void OnOverlapBegin(
 		UPrimitiveComponent* OverlappedComp,
@@ -61,8 +64,13 @@ public:
 		const FHitResult& SweepResult
 		);
 
+	UFUNCTION(BlueprintCallable)
+	void SetLevelZone(ELevelZoneType NewLevelZone);
+	
 private:
 	UFUNCTION()
 	void OnInitializeLevelZone();
+
+protected:
 
 };

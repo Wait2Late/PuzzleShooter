@@ -17,7 +17,7 @@ ANumpad::ANumpad()
 void ANumpad::BeginPlay()
 {
 	Super::BeginPlay();
-	// OnInitializeSetAllChildrenLevelZone();
+	OnInitializeSetAllChildrenLevelZone();
 	
 }
 
@@ -41,17 +41,31 @@ void ANumpad::OnInitializeSetAllChildrenLevelZone()
 	
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumberBlock, OutActors);
 
+	ANumberBlock block;
 	
 	GetAllChildActors(ChildActors);
 
+
+
+	for (int i = 0; i < ChildActors.Num(); ++i)
+	{
+		// if (IsChildActor() == ChildActors[i]->Children)
+		// {
+			
+		// }
+		// OutActors[i]->LevelZone
+	}
+
+	int LocalInt = ChildActors.Num();
 	
 	for (const AActor* OutActor : OutActors)
 	{
 		for (const AActor* OutChildActor : ChildActors)
 		{
-			if (OutChildActor == OutActor)
-			{
-			}
+			// if (OutChildActor == OutActor)
+			// {
+			// 	block.SetLevelZone(this->LevelZone);
+			// }
 		}
 	}
 }

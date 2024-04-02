@@ -91,6 +91,11 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 }
 
+void ANumberBlock::SetLevelZone(ELevelZoneType NewLevelZone)
+{
+	LevelZone = NewLevelZone;
+}
+
 void ANumberBlock::C_Erasure()
 {
 	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
