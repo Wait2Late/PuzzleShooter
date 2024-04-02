@@ -3,6 +3,7 @@
 
 #include "NumberBlock.h"
 
+#include "EngineUtils.h"
 #include "Numpad.h"
 #include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
@@ -107,7 +108,7 @@ void ANumberBlock::C_Erasure()
 	// UpdateNumberUI(); 
 }
 
-void ANumberBlock::OnInitializeLevelZone()
+void ANumberBlock::OnInitializeLevelZone() // Not needed
 {
 	TArray<AActor*> OutActors;
 
@@ -135,5 +136,10 @@ void ANumberBlock::OnInitializeLevelZone()
 		OutActors[i]->GetDefaultAttachComponent();
 		
 	}
-	
+
+	for (const ANumpad* Numpad : TActorRange<ANumpad>(GetWorld()))
+		if (Numpad == GetParentActor())
+			SetLevelZone(Numpad->LevelZone);
+
+
 }

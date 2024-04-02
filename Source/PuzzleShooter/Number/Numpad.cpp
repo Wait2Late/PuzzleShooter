@@ -2,6 +2,8 @@
 
 
 #include "Numpad.h"
+
+#include "EngineUtils.h"
 #include "NumberBlock.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -17,6 +19,7 @@ ANumpad::ANumpad()
 void ANumpad::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	OnInitializeSetAllChildrenLevelZone();
 	
 }
@@ -27,46 +30,57 @@ void ANumpad::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-ELevelZoneType ANumpad::GetLevelZone()
+
+void ANumpad::OnInitializeSetAllChildrenLevelZone() const
 {
-	return LevelZone;
-}
-
-void ANumpad::OnInitializeSetAllChildrenLevelZone()
-{
-	TArray<AActor*> OutActors;
-	TArray<AActor*> ChildActors;
-
-	const TSubclassOf<ANumberBlock> NumberBlock;
+	// TArray<AActor*> OutActors;
+	// TArray<AActor*> ChildActors;
+	// GetAllChildActors(ChildActors);
+	//
+	// const TSubclassOf<ANumberBlock> NumberBlock;
+	//
+	// UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumberBlock, OutActors);
+	//
 	
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumberBlock, OutActors);
+	// for (const auto* OutActor : OutActors)
+	// {
+	// 	for (const auto* OutChildActor : ChildActors)
+	// 	{
+	// 		if (OutChildActor == OutActor)
+	// 		{
+	// 			OutActor->SetLevelZone(this->LevelZone);
+	// 		}
+	// 	}
+	// }
 
-	ANumberBlock block;
-	
-	GetAllChildActors(ChildActors);
 
+	// for(TActorIterator<ANumberBlock> BlockItr(GetWorld()); BlockItr; ++BlockItr)
+	// {
+	// 	if (BlockItr && *BlockItr)
+	// 	{
+	// 		auto* CurrentBlock = *BlockItr;
+	//
+	// 		auto level = CurrentBlock->LevelZone;
+	// 	}
+	// }
 
+	for (ANumberBlock* Block : TActorRange<ANumberBlock>(GetWorld()))
+		if (Block->GetParentActor() == this)
+			Block->SetLevelZone(this->LevelZone);
 
-	for (int i = 0; i < ChildActors.Num(); ++i)
-	{
-		// if (IsChildActor() == ChildActors[i]->Children)
-		// {
-			
-		// }
-		// OutActors[i]->LevelZone
-	}
-
-	int LocalInt = ChildActors.Num();
-	
-	for (const AActor* OutActor : OutActors)
-	{
-		for (const AActor* OutChildActor : ChildActors)
-		{
-			// if (OutChildActor == OutActor)
-			// {
-			// 	block.SetLevelZone(this->LevelZone);
-			// }
-		}
-	}
+	// TArray<ANumberBlock> Blocks;
+	// for (int i = 0; i < ChildActors.Num(); ++i)
+	// {
+	// 	if (ChildActors[i]->IsChildActor())
+	// 	{
+	// 		Blocks.Add(ChildActors[i]->Get)
+	// 	}
+	//
+	// 	// if (IsChildActor() == ChildActors[i]->Children)
+	// 	// {
+	// 		
+	// 	// }
+	// 	// OutActors[i]->LevelZone
+	// }
 }
 

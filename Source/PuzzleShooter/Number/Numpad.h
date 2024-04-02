@@ -29,10 +29,10 @@ public:
 
 	// TArray<ANumberBlock> AllNumberBlocks;
 
-	UFUNCTION()
-	ELevelZoneType GetLevelZone();
 
+private:
+	
 	UFUNCTION()
-	void OnInitializeSetAllChildrenLevelZone();
+	void OnInitializeSetAllChildrenLevelZone() const;
 	
 };

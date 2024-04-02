@@ -38,11 +38,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
 	TEnumAsByte<ENumpadType> NumpadType;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "TextNumber Category")
-	TEnumAsByte<ELevelZoneType> LevelZone;
-
-	TEnumAsByte<ELevelZoneType> LocalLevelZone;
-	TEnumAsByte<ELevelZoneType> LocalLevelZone2;
 
 	
 	
@@ -69,8 +64,10 @@ public:
 	
 private:
 	UFUNCTION()
-	void OnInitializeLevelZone();
+	void OnInitializeLevelZone(); //Not needed
 
 protected:
+	UPROPERTY(BlueprintReadOnly, Category= "TextNumber Category")
+	TEnumAsByte<ELevelZoneType> LevelZone;
 
 };
