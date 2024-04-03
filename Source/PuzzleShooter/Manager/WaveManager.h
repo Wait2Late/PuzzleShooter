@@ -6,6 +6,8 @@
 // #include "GameFramework/Info.h" // Might revert to AInfo again.
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enemy/EnemyBase.h"
+#include "PuzzleShooter/Enum/LevelZoneType.h"
+#include "..\PoolingSystem\PoolingSystem.h"
 #include "PuzzleShooter/Struct/EnemyWave.h"
 #include "WaveManager.generated.h"
 
@@ -32,16 +34,42 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "WaveManager Category")
 	int RemainingEnemiesAmount = 0;
 
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SpawnWave Category")
-	// FEnemyWave Waves;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SpawnWave Category")
+	FEnemyWave Waves;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SpawnWave Category")
 	float SpawnOffsetZ = 75.f;
 
+	UPROPERTY(BlueprintReadOnly)
+	TArray<AEnemyBase*> CurrentWaveEnemies; //OG
+
+	UPROPERTY(EditAnywhere, Category="SpawnWave Category")
+	TMap<TEnumAsByte<EEnemyType>, APoolingSystem*> EnemyPools;
+
+
+	UPROPERTY(BlueprintReadWrite, Category="SpawnWave Category")
+	int AmountOfEnemiesToSpawn;
+
+	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
+	int MaxEnemies = 20;
+
+	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
+	int MeleeEnemies;
+
+	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
+	int RangedEnemies;
+
+	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
+	ELevelZoneType LevelZone;
+
+protected:
+	
+	
 private:
 	void RemoveDeadEnemy(AEnemyBase* EnemyBase, EEnemyType Enemy);
 
 	FVector GetRandomLocationAroundPLayer() const;
+
 
 	
 };

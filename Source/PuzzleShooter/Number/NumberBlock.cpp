@@ -126,8 +126,6 @@ void ANumberBlock::OnInitializeLevelZone() // Not needed
 			// OutActors->
 			// OutActors[0]->GetDefaultSubobjects(OutActors->);
 			
-			ANumpad* NumpadActor = NumPad.GetDefaultObject();
-			LevelZone = NumpadActor->GetLevelZone();
 		}
 	}
 

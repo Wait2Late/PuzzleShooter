@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "..\PoolingSystem\PoolingActorBase.h"
 #include "EnemyBase.generated.h"
 
 UCLASS()
-class PUZZLESHOOTER_API AEnemyBase : public APawn
+class PUZZLESHOOTER_API AEnemyBase : public APoolingActorBase
 {
 	GENERATED_BODY()
 

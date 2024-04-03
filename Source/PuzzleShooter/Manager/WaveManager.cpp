@@ -61,9 +61,9 @@ FVector AWaveManager::GetRandomLocationAroundPLayer() const
 	//The logic behind the enemy spawn location. 
 	const float RandomAngle = FMath::RandRange(0.0f, 360.0f);
 	const FVector SpawnDirection = FVector::ForwardVector.RotateAngleAxis(RandomAngle, FVector::UpVector);
-	const float Radius = 1000.0f;
-	const FVector OurCharPos = PlayerCharacter->GetActorLocation();
-	const FVector RandomLocation = OurCharPos + Radius * SpawnDirection;
+	const float Radius = 500.0f;
+	const FVector PlayerPosition = PlayerCharacter->GetActorLocation();
+	const FVector RandomLocation = PlayerPosition + Radius * SpawnDirection;
 	const FVector LocalOffSetZ = FVector(0.0f, 0.0f, SpawnOffsetZ);
 	
 	

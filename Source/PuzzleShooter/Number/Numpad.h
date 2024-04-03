@@ -27,9 +27,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TEnumAsByte<ELevelZoneType> LevelZone;
 
-	// TArray<ANumberBlock> AllNumberBlocks;
-
-
 private:
 	
 	UFUNCTION()
