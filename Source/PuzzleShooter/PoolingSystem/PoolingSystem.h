@@ -26,7 +26,7 @@ public:
 
 	//Functions
 	UFUNCTION(BlueprintCallable, Category="Pooling Category")
-	int GetPoolSize();
+	int GetPoolSize() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Pooling Category")
 	APoolingActorBase* SpawnActor(FVector SpawnTransform);
@@ -35,7 +35,7 @@ public:
 	APoolingActorBase* OnBeginPool();
 
 	UFUNCTION()
-	void OnPoolingActorDespawn(APoolingActorBase* PoolingActor);
+	void OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase);
 
 	//Variables
 	UPROPERTY(BlueprintReadWrite, Category = "Pooling Category")

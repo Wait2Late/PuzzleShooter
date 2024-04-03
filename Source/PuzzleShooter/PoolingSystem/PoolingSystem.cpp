@@ -29,7 +29,9 @@ APoolingActorBase* APoolingSystem::SpawnActor(FVector SpawnLocation)
 {
 	for (APoolingActorBase* SpawnedActor : PoolingActors)
 	{
-		if (SpawnedActor != nullptr && SpawnedActor->IsActive == false)
+		const bool IsActive = SpawnedActor->IsActive();
+		
+		if (SpawnedActor != nullptr && SpawnedActor->IsActive() == false)
 		{
 			SpawnedActor->TeleportTo(SpawnLocation, FRotator::ZeroRotator);
 			// SpawnedActor->SetLifeSpan(PooledLifeSpan); //If I desire a lifespan like pooled bullets.
@@ -65,7 +67,7 @@ APoolingActorBase* APoolingSystem::OnBeginPool()
 	{
 		for (int i = 0; i < PoolSize; ++i)
 		{
-			APoolingActorBase* PoolsActor = GetWorld()->SpawnActor<APoolingActorBase>()(PoolingActor, PoolLocation, FRotator::ZeroRotator);
+			APoolingActorBase* PoolsActor = GetWorld()->SpawnActor<APoolingActorBase>(PoolingActor, PoolLocation, FRotator::ZeroRotator);
 			if (PoolsActor != nullptr)
 			{
 				PoolsActor->SetActive(false);
@@ -78,12 +80,13 @@ APoolingActorBase* APoolingSystem::OnBeginPool()
 	return nullptr;
 }
 
-void APoolingSystem::OnPoolingActorDespawn(APoolingActorBase* PoolingActor)
+void APoolingSystem::OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase)
 {
-	SpawnedActorIndex.Remove(PoolingActor->GetPoolIndex());
+	SpawnedActorIndex.Remove(PoolingActorBase->GetPoolIndex());
 }
 
-int APoolingSystem::GetPoolSize()
+
+int APoolingSystem::GetPoolSize() const
 {
 	return PoolSize;
 }

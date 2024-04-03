@@ -78,5 +78,5 @@ void APoolingActorBase::SetPoolIndex(int Index){PoolIndex = Index;}
 
 int APoolingActorBase::GetPoolIndex(){return PoolIndex;}
 
-bool APoolingActorBase::IsActive(){return bIsActive;}
+bool APoolingActorBase::IsActive() const { return bIsActive;}
 

@@ -45,7 +45,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnSetActiveCalled(bool IsActive);
 
-	bool IsActive();
+	bool IsActive() const;
 
 protected:
 		bool bIsActive;
