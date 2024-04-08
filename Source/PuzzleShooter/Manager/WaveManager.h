@@ -7,7 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enemy/EnemyBase.h"
 #include "PuzzleShooter/Enum/LevelZoneType.h"
-#include "..\PoolingSystem\PoolingSystem.h"
+#include "../PoolingSystem/PoolingSystem.h"
 #include "PuzzleShooter/Struct/EnemyWave.h"
 #include "WaveManager.generated.h"
 
@@ -41,13 +41,21 @@ public:
 	float SpawnOffsetZ = 75.f;
 
 	UPROPERTY(BlueprintReadOnly)
-	TArray<AEnemyBase*> CurrentWaveEnemies; //OG
+	TArray<TObjectPtr<APoolingActorBase>> AmountOfMeleeEnemies;
+	UPROPERTY(BlueprintReadOnly)
+	TArray<TObjectPtr<APoolingActorBase>> AmountOfRangedEnemies;
+	UPROPERTY(BlueprintReadOnly)
+	TArray<TObjectPtr<APoolingActorBase>> CurrentWaveEnemies; //OG
 
 	UPROPERTY(EditAnywhere, Category="SpawnWave Category")
-	TMap<TEnumAsByte<EEnemyType>, APoolingSystem*> EnemyPools;
+	TMap<TEnumAsByte<EEnemyType>, TObjectPtr<APoolingSystem>> EnemyPools;
 
 
-	UPROPERTY(BlueprintReadWrite, Category="SpawnWave Category")
+
+	TEnumAsByte<EEnemyType> EnemyType;
+
+
+	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
 	int AmountOfEnemiesToSpawn;
 
 	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
@@ -62,12 +70,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
 	ELevelZoneType LevelZone;
 
+	// void RemoveDeadEnemy(APoolingActorBase* PoolingActor);
+
+	void RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EEnemyType Enemy);
+	
 protected:
+	UFUNCTION(BlueprintCallable)
+	void SpawnWave();
 	
 	
 private:
-	void RemoveDeadEnemy(AEnemyBase* EnemyBase, EEnemyType Enemy);
 
+	void OnInitializePools();
 	FVector GetRandomLocationAroundPLayer() const;
 
 

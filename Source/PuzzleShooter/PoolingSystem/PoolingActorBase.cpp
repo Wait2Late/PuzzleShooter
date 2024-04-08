@@ -36,9 +36,13 @@ void APoolingActorBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 void APoolingActorBase::Deactivate()
 {
+	GetWorldTimerManager().ClearAllTimersForObject(this);
+	// OnPoolingActorDespawn.Broadcast(this);
+	OnEnemyTypeDespawn.Broadcast(this, EnemyType);
+	SetActive(false);
 }
 
-void APoolingActorBase::SetActive(const bool IsActive)
+void APoolingActorBase::SetActive(bool IsActive)
 {
 	bIsActive = IsActive;
 	if (!IsActive)
@@ -53,30 +57,27 @@ void APoolingActorBase::SetActive(const bool IsActive)
 
 		// UPawnMovementComponent* MovementComponent = GetMovementComponent();
 		// MovementComponent->SetComponentTickEnabled(true);
-		GetController()->GetPawn()->TurnOff();
-		MovementComponent->Deactivate();
+		// GetController()->GetPawn()->TurnOff();
+		// MovementComponent->Deactivate();
 		
 	}
 	if (IsActive)
 	{
 		SetActorHiddenInGame(!bIsActive);
 		// GetCharacterMovement()->SetDefaultMovementMode();
-		SetActorEnableCollision(bIsActive);
 		SetActorTickEnabled(bIsActive);
+		SetActorEnableCollision(bIsActive);
 
 
-		MovementComponent->Activate();
-
-		
+		// MovementComponent->Activate();
 	}
-	
 }
 
-void APoolingActorBase::SetLifeSpan(float LifeTime){LifeSpan = LifeTime;}
+void APoolingActorBase::SetLifeSpan(const float LifeTime){LifeSpan = LifeTime;}
 
-void APoolingActorBase::SetPoolIndex(int Index){PoolIndex = Index;}
+void APoolingActorBase::SetPoolIndex(const int Index){PoolIndex = Index;}
 
-int APoolingActorBase::GetPoolIndex(){return PoolIndex;}
+int APoolingActorBase::GetPoolIndex() const {return PoolIndex;}
 
 bool APoolingActorBase::IsActive() const { return bIsActive;}
 

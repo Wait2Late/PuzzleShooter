@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "PuzzleShooter/Enum/EnemyType.h"
 #include "PoolingActorBase.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPoolingActorDespawn, APoolingActorBase*, PoolingActor);
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPoolingActorDespawn, APoolingActorBase*, PoolingActor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEnemyTypeDespawn, APoolingActorBase*, PoolingActor, EEnemyType, Enemy);
 
 UCLASS()
 class PUZZLESHOOTER_API APoolingActorBase : public APawn
@@ -28,30 +31,33 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-
 	
-	FOnPoolingActorDespawn OnPoolingActorDespawn;
+	FOnEnemyTypeDespawn OnEnemyTypeDespawn;
+	
+	// FOnPoolingActorDespawn OnPoolingActorDespawn;
 
 	UFUNCTION(BlueprintCallable, Category="Pooled Actor Category")
 	void Deactivate();
 
+	
 	UFUNCTION(BlueprintCallable, Category="Pooled Actor Category")
 	void SetActive(bool IsActive);
 	void SetLifeSpan(float LifeTime);
 	void SetPoolIndex(int Index);
-	int GetPoolIndex();
+	int GetPoolIndex() const;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnSetActiveCalled(bool IsActive);
 
 	bool IsActive() const;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Pooled Actor Category")
+	EEnemyType EnemyType;
 protected:
-		bool bIsActive;
-    	float LifeSpan = 0.0f;
-    	int32 PoolIndex; // = -1;
-private:
+	bool bIsActive;
+    float LifeSpan = 0.0f;
+    int32 PoolIndex; // = -1;
 	TObjectPtr<UPawnMovementComponent> MovementComponent;
+private:
 	
 };

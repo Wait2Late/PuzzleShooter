@@ -4,6 +4,7 @@
 #include "WaveManager.h"
 
 #include "NavigationSystem.h"
+#include "NiagaraFunctionLibrary.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -20,8 +21,8 @@ void AWaveManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GEngine->AddOnScreenDebugMessage(-1, 10, FColor::Yellow,
-		FString::Printf(TEXT("AINFO")));
+	OnInitializePools();
+
 }
 
 // Called every frame
@@ -30,14 +31,116 @@ void AWaveManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AWaveManager::RemoveDeadEnemy(AEnemyBase* EnemyBase, EEnemyType Enemy)
+// void AWaveManager::RemoveDeadEnemy(APoolingActorBase* PoolingActor)
+// {
+// 	RemainingEnemiesAmount -= 1;
+// 	UE_LOG(LogTemp, Warning, TEXT("Remainging Enemies: %d"), RemainingEnemiesAmount);
+// 	PoolingActor->OnPoolingActorDespawn.RemoveDynamic(this, &AWaveManager::RemoveDeadEnemy); 
+// 	
+// 	CurrentWaveEnemies.Remove(PoolingActor);
+// 	CurrentWaveEnemies.Shrink();
+// }
+
+void AWaveManager::RemoveEnemyType(APoolingActorBase* PoolingActorBase, EEnemyType Enemy)
 {
 	RemainingEnemiesAmount -= 1;
 	UE_LOG(LogTemp, Warning, TEXT("Remainging Enemies: %d"), RemainingEnemiesAmount);
-	// EnemyBase->OnPooledCharacterDelegateDespawn.RemoveDynamic(this, &AWaveManager::RemoveDeadEnemyFromWave);
+	// PoolingActorBase->OnPoolingActorDespawn.RemoveDynamic(this, &AWaveManager::RemoveDeadEnemy);
+	PoolingActorBase->OnEnemyTypeDespawn.RemoveDynamic(this, &AWaveManager::RemoveEnemyType);
 
-	// CurrentWaveEnemies.Remove(EnemyBase);
-	// CurrentWaveEnemies.Shrink();
+	const TEnumAsByte CurrentEnemyType = Enemy;
+	GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Red,
+		FString::Printf(TEXT("EnemyType: %d"), CurrentEnemyType.GetIntValue()));
+	
+	switch (CurrentEnemyType)
+	{
+		case EEnemyType::MeleeEnemy:
+			AmountOfMeleeEnemies.Remove(PoolingActorBase);
+			AmountOfMeleeEnemies.Shrink();
+		break;
+		case EEnemyType::RangedEnemy:
+			AmountOfRangedEnemies.Remove(PoolingActorBase);
+			AmountOfRangedEnemies.Shrink();
+		break;
+		case EEnemyType::None:
+		default: break;
+	}
+	
+	CurrentWaveEnemies.Remove(PoolingActorBase);
+	CurrentWaveEnemies.Shrink();
+
+}
+
+void AWaveManager::SpawnWave()
+{
+	if (MaxEnemies >= CurrentWaveEnemies.Num())
+	{
+		const EEnemyType CurrentEnemyType = EnemyType;
+		
+		for (int j = 0; j < AmountOfEnemiesToSpawn; j++)
+		{
+			if (MaxEnemies <= CurrentWaveEnemies.Num())
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 4, FColor::Yellow, TEXT("Max amount of enemies. Not allowed to spawn more!"));	
+				break;
+			}
+
+			const FVector SpawnOnRandomLocations = GetRandomLocationAroundPLayer();
+			// UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), SpawnVfx, SpawnOnRandomLocations);
+			// OnSpawnVFX(SpawnOnRandomLocations);
+			
+			// const TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
+
+			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
+			
+			// if(CurrentEnemy == nullptr)
+			// {
+			// 	continue;
+			// }
+
+			// CurrentEnemy->OnPoolingActorDespawn.AddDynamic(this, &AWaveManager::RemoveDeadEnemy); //OG
+
+			// APoolingActorBase* CurrentEnemy = nullptr;
+			CurrentEnemy->OnEnemyTypeDespawn.AddDynamic(this, &AWaveManager::RemoveEnemyType);
+
+			// TArray<AEnemyBase*> AEnemyBase; //TODO Why does it not respond to the children?
+			// AEnemyBase.Add(CurrentEnemy);
+
+			// APoolingSystem* PoolingSystem = nullptr;
+			// APoolingActorBase* PoolingActorBase = PoolingSystem->SpawnActor(SpawnOnRandomLocations); //This is the parent of AEnemyBase
+			//
+			// AEnemyBase* EnemyBase = Cast<AEnemyBase>(PoolingActorBase); // Upcast to AEnemyBase
+			//
+			// TArray<TObjectPtr<APoolingActorBase>> CurrentEnemies; //OG
+			//
+			// CurrentEnemies.Add(EnemyBase);
+
+			switch (CurrentEnemyType)
+			{
+				case EEnemyType::MeleeEnemy: AmountOfMeleeEnemies.Add(CurrentEnemy); break;
+				case EEnemyType::RangedEnemy: AmountOfRangedEnemies.Add(CurrentEnemy); break;
+				case EEnemyType::None:
+					default: break;
+			}
+			
+			CurrentWaveEnemies.Add(CurrentEnemy);
+			RemainingEnemiesAmount += 1;
+			
+		}
+		CurrentWaveIndex += 1;
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
+			FString::Printf(TEXT("else it's full")));
+	}
+}
+
+
+void AWaveManager::OnInitializePools()
+{
+	for (auto Pool : EnemyPools)
+		Pool.Value->OnBeginPool();
 }
 
 FVector AWaveManager::GetRandomLocationAroundPLayer() const

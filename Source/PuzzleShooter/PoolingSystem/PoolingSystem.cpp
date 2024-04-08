@@ -3,6 +3,8 @@
 
 #include "PoolingSystem.h"
 
+#include "PuzzleShooter/Enemy/EnemyBase.h"
+
 
 // Sets default values
 APoolingSystem::APoolingSystem()
@@ -63,6 +65,7 @@ APoolingActorBase* APoolingSystem::SpawnActor(FVector SpawnLocation)
 
 APoolingActorBase* APoolingSystem::OnBeginPool()
 {
+	
 	if (PoolingActor != nullptr)
 	{
 		for (int i = 0; i < PoolSize; ++i)
@@ -72,7 +75,9 @@ APoolingActorBase* APoolingSystem::OnBeginPool()
 			{
 				PoolsActor->SetActive(false);
 				PoolsActor->SetPoolIndex(i);
-				PoolsActor->OnPoolingActorDespawn.AddDynamic(this, &APoolingSystem::OnPoolingActorDespawn);
+				// PoolsActor->OnPoolingActorDespawn.AddDynamic(this, &APoolingSystem::OnPoolingActorDespawn);
+				PoolsActor->OnEnemyTypeDespawn.AddDynamic(this, &APoolingSystem::OnPoolingActorDespawn);
+
 				PoolingActors.Add(PoolsActor);
 			}
 		}
@@ -80,10 +85,16 @@ APoolingActorBase* APoolingSystem::OnBeginPool()
 	return nullptr;
 }
 
-void APoolingSystem::OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase)
+void APoolingSystem::OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase, EEnemyType Enemy)
 {
+	TEnumAsByte CurrentEnemy = Enemy;
 	SpawnedActorIndex.Remove(PoolingActorBase->GetPoolIndex());
 }
+
+// void APoolingSystem::OnPoolingEnemyDespawn(APoolingActorBase* PoolingActorBase, EEnemyType Enemy)
+// {
+	
+// }
 
 
 int APoolingSystem::GetPoolSize() const

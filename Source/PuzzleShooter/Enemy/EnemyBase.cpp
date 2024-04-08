@@ -30,3 +30,12 @@ void AEnemyBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+// void AEnemyBase::Deactivate()
+// {
+// 	// Super::Deactivate();
+// 	GetWorldTimerManager().ClearAllTimersForObject(this);
+// 	OnPoolingEnemyDespawn.Broadcast(this);
+// 	SetActive(false);
+// }
+
+

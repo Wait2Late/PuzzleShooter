@@ -35,7 +35,9 @@ public:
 	APoolingActorBase* OnBeginPool();
 
 	UFUNCTION()
-	void OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase);
+	void OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase, EEnemyType Enemy);
+	// UFUNCTION()
+	// void OnPoolingEnemyDespawn(APoolingActorBase* PoolingActorBase, EEnemyType Enemy);
 
 	//Variables
 	UPROPERTY(BlueprintReadWrite, Category = "Pooling Category")

@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "..\PoolingSystem\PoolingActorBase.h"
+#include "../PoolingSystem/PoolingActorBase.h"
 #include "EnemyBase.generated.h"
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPoolingEnemyDespawn, APoolingActorBase*, PoolingActor);
 
 UCLASS()
 class PUZZLESHOOTER_API AEnemyBase : public APoolingActorBase
@@ -26,4 +29,9 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// UFUNCTION(BlueprintCallable, Category="Pooled Actor Category")
+	// virtual void Deactivate() override;
+ 
+	// FOnPoolingEnemyDespawn OnPoolingEnemyDespawn;
 };
