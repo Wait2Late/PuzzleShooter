@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "../PoolingSystem/PoolingActorBase.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "EnemyBase.generated.h"
 
 
@@ -34,4 +35,13 @@ public:
 	// virtual void Deactivate() override;
  
 	// FOnPoolingEnemyDespawn OnPoolingEnemyDespawn;
+
+	// UPROPERTY(EditAnywhere, Category="Enemy Category")
+	// TEnumAsByte<EEnemyType> EnemyType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AI", meta=(AllowPrivateAccess="true"))
+	TObjectPtr<UBehaviorTree> Tree;
+
+	UBehaviorTree* GetBehaviourTree();
+protected:
 };

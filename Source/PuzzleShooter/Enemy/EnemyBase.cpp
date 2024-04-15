@@ -30,6 +30,11 @@ void AEnemyBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+UBehaviorTree* AEnemyBase::GetBehaviourTree()
+{
+	return Tree;
+}
+
 // void AEnemyBase::Deactivate()
 // {
 // 	// Super::Deactivate();

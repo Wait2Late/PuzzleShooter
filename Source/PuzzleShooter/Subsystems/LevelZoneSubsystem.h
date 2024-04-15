@@ -38,6 +38,7 @@ public:
 	void TriggerNewLevelZoneReached();
 	UFUNCTION(BlueprintCallable, Category= "LevelZone Subsystem Functions")
 	void TriggerLevelZoneCleared();
+	
 private:
 	
 };

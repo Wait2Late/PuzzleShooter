@@ -41,7 +41,7 @@ void ANumpad::OnInitializeSetAllChildrenLevelZone() const
 	//
 	// UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumberBlock, OutActors);
 	//
-	
+	//
 	// for (const auto* OutActor : OutActors)
 	// {
 	// 	for (const auto* OutChildActor : ChildActors)
@@ -63,11 +63,24 @@ void ANumpad::OnInitializeSetAllChildrenLevelZone() const
 	// 		auto level = CurrentBlock->LevelZone;
 	// 	}
 	// }
+	
+	// TArray<AActor*> childActors;
+	//
+	// GetAllChildActors(childActors);
+	//
+	// for (auto child : childActors)
+	// {
+	// 	auto block = Cast<ANumberBlock>(child);
+	// 	block->SetLevelZone(this->LevelZone);
+	// }
 
+	
 	for (ANumberBlock* Block : TActorRange<ANumberBlock>(GetWorld()))
 		if (Block->GetParentActor() == this)
 			Block->SetLevelZone(this->LevelZone);
 
+
+	
 	// TArray<ANumberBlock> Blocks;
 	// for (int i = 0; i < ChildActors.Num(); ++i)
 	// {

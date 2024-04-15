@@ -41,7 +41,7 @@ void AWaveManager::Tick(float DeltaTime)
 // 	CurrentWaveEnemies.Shrink();
 // }
 
-void AWaveManager::RemoveEnemyType(APoolingActorBase* PoolingActorBase, EEnemyType Enemy)
+void AWaveManager::RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EEnemyType Enemy)
 {
 	RemainingEnemiesAmount -= 1;
 	UE_LOG(LogTemp, Warning, TEXT("Remainging Enemies: %d"), RemainingEnemiesAmount);
@@ -75,6 +75,7 @@ void AWaveManager::SpawnWave()
 {
 	if (MaxEnemies >= CurrentWaveEnemies.Num())
 	{
+		
 		const EEnemyType CurrentEnemyType = EnemyType;
 		
 		for (int j = 0; j < AmountOfEnemiesToSpawn; j++)
@@ -92,7 +93,8 @@ void AWaveManager::SpawnWave()
 			// const TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
 
 			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
-			
+
+			TObjectPtr<AEnemyBase> currentEnemy = Cast<AEnemyBase>(CurrentEnemy);
 			// if(CurrentEnemy == nullptr)
 			// {
 			// 	continue;
@@ -122,6 +124,15 @@ void AWaveManager::SpawnWave()
 				case EEnemyType::None:
 					default: break;
 			}
+
+			// TObjectPtr<AEnemyBase> EnemyBase;
+			// TArray<TObjectPtr<AEnemyBase>> EnemyBases;
+			// EnemyBases.Add(EnemyBase);
+			// CurrentWaveEnemies.Add(EnemyBase);
+
+			// const TObjectPtr<APoolingSystem> PoolingSystem;
+			// auto s = PoolingSystem->SpawnChild<AEnemyBase>(SpawnOnRandomLocations);
+
 			
 			CurrentWaveEnemies.Add(CurrentEnemy);
 			RemainingEnemiesAmount += 1;
@@ -139,7 +150,7 @@ void AWaveManager::SpawnWave()
 
 void AWaveManager::OnInitializePools()
 {
-	for (auto Pool : EnemyPools)
+	for (const auto Pool : EnemyPools)
 		Pool.Value->OnBeginPool();
 }
 

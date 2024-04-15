@@ -28,11 +28,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Pooling Category")
 	int GetPoolSize() const;
 
+	template<typename T>
+
+	T SpawnChild(FVector SpawnLocation);
+	
 	UFUNCTION(BlueprintCallable, Category = "Pooling Category")
 	APoolingActorBase* SpawnActor(FVector SpawnTransform);
 
 	UFUNCTION(BlueprintCallable, Category = "Pooling Category")
-	APoolingActorBase* OnBeginPool();
+	// APoolingActorBase* OnBeginPool();
+	void OnBeginPool();
 
 	UFUNCTION()
 	void OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase, EEnemyType Enemy);
@@ -41,7 +46,7 @@ public:
 
 	//Variables
 	UPROPERTY(BlueprintReadWrite, Category = "Pooling Category")
-	TArray<APoolingActorBase*> PoolingActors;
+	TArray<TObjectPtr<APoolingActorBase>> PoolingActors;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Pooling Category")
 	TSubclassOf<APoolingActorBase> PoolingActor;
@@ -61,3 +66,4 @@ protected:
 
 	
 };
+

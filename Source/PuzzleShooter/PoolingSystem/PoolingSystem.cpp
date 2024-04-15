@@ -26,10 +26,10 @@ void APoolingSystem::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-
-APoolingActorBase* APoolingSystem::SpawnActor(FVector SpawnLocation)
+template <typename T>
+T APoolingSystem::SpawnChild(FVector SpawnLocation)
 {
-	for (APoolingActorBase* SpawnedActor : PoolingActors)
+	for (auto SpawnedActor : PoolingActors)
 	{
 		const bool IsActive = SpawnedActor->IsActive();
 		
@@ -43,6 +43,7 @@ APoolingActorBase* APoolingSystem::SpawnActor(FVector SpawnLocation)
 			return SpawnedActor;
 		}
 	}
+	
 	if (SpawnedActorIndex.Num() > 0)
 	{
 		const int PooledIndex = SpawnedActorIndex[0];
@@ -63,9 +64,46 @@ APoolingActorBase* APoolingSystem::SpawnActor(FVector SpawnLocation)
 	return nullptr;
 }
 
-APoolingActorBase* APoolingSystem::OnBeginPool()
+
+APoolingActorBase* APoolingSystem::SpawnActor(FVector SpawnLocation)
 {
+	for (APoolingActorBase* SpawnedActor : PoolingActors)
+	{
+		const bool IsActive = SpawnedActor->IsActive();
+		
+		if (SpawnedActor != nullptr && SpawnedActor->IsActive() == false)
+		{
+			SpawnedActor->TeleportTo(SpawnLocation, FRotator::ZeroRotator);
+			// SpawnedActor->SetLifeSpan(PooledLifeSpan); //If I desire a lifespan like pooled bullets.
+			SpawnedActor->SetActive(true);
+			SpawnedActorIndex.Add(SpawnedActor->GetPoolIndex());
+
+			return SpawnedActor;
+		}
+	}
 	
+	if (SpawnedActorIndex.Num() > 0)
+	{
+		const int PooledIndex = SpawnedActorIndex[0];
+		SpawnedActorIndex.Remove(PooledIndex);
+		APoolingActorBase* SpawnedActor = PoolingActors[PooledIndex];
+
+		if (SpawnedActor != nullptr)
+		{
+			SpawnedActor->TeleportTo(SpawnLocation, FRotator::ZeroRotator);
+			// SpawnedActor->SetLifeSpan(PooledLifeSpan); //If I desire a lifespan like pooled bullets.
+			SpawnedActor->SetActive(true);
+			SpawnedActorIndex.Add(SpawnedActor->GetPoolIndex());
+
+			return SpawnedActor;
+		}
+	}
+
+	return nullptr;
+}
+
+void APoolingSystem::OnBeginPool()
+{
 	if (PoolingActor != nullptr)
 	{
 		for (int i = 0; i < PoolSize; ++i)
@@ -78,14 +116,14 @@ APoolingActorBase* APoolingSystem::OnBeginPool()
 				// PoolsActor->OnPoolingActorDespawn.AddDynamic(this, &APoolingSystem::OnPoolingActorDespawn);
 				PoolsActor->OnEnemyTypeDespawn.AddDynamic(this, &APoolingSystem::OnPoolingActorDespawn);
 
+				
 				PoolingActors.Add(PoolsActor);
 			}
 		}
 	}
-	return nullptr;
 }
 
-void APoolingSystem::OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase, EEnemyType Enemy)
+void APoolingSystem::OnPoolingActorDespawn(APoolingActorBase* PoolingActorBase, const EEnemyType Enemy)
 {
 	TEnumAsByte CurrentEnemy = Enemy;
 	SpawnedActorIndex.Remove(PoolingActorBase->GetPoolIndex());
