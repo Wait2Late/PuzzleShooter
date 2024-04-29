@@ -27,7 +27,7 @@ void APoolingSystem::Tick(float DeltaTime)
 }
 
 template <typename T>
-T APoolingSystem::SpawnChild(FVector SpawnLocation)
+T* APoolingSystem::SpawnEnemyBase(FVector SpawnLocation)
 {
 	for (auto SpawnedActor : PoolingActors)
 	{
@@ -64,6 +64,45 @@ T APoolingSystem::SpawnChild(FVector SpawnLocation)
 	return nullptr;
 }
 
+
+// AEnemyBase* APoolingSystem::SpawnRealEnemyBase(FVector SpawnLocation)
+// {
+// 	TArray<TObjectPtr<AEnemyBase>> EnemyBases;
+// 	
+// 	for (auto SpawnedActor : PoolingActors)
+// 	{
+// 		const bool IsActive = SpawnedActor->IsActive();
+// 		
+// 		if (SpawnedActor != nullptr && SpawnedActor->IsActive() == false)
+// 		{
+// 			SpawnedActor->TeleportTo(SpawnLocation, FRotator::ZeroRotator);
+// 			// SpawnedActor->SetLifeSpan(PooledLifeSpan); //If I desire a lifespan like pooled bullets.
+// 			SpawnedActor->SetActive(true);
+// 			SpawnedActorIndex.Add(SpawnedActor->GetPoolIndex());
+//
+// 			return SpawnedActor;
+// 		}
+// 	}
+// 	
+// 	if (SpawnedActorIndex.Num() > 0)
+// 	{
+// 		const int PooledIndex = SpawnedActorIndex[0];
+// 		SpawnedActorIndex.Remove(PooledIndex);
+// 		APoolingActorBase* SpawnedActor = PoolingActors[PooledIndex];
+//
+// 		if (SpawnedActor != nullptr)
+// 		{
+// 			SpawnedActor->TeleportTo(SpawnLocation, FRotator::ZeroRotator);
+// 			// SpawnedActor->SetLifeSpan(PooledLifeSpan); //If I desire a lifespan like pooled bullets.
+// 			SpawnedActor->SetActive(true);
+// 			SpawnedActorIndex.Add(SpawnedActor->GetPoolIndex());
+//
+// 			return SpawnedActor;
+// 		}
+// 	}
+//
+// 	return nullptr;
+// }
 
 APoolingActorBase* APoolingSystem::SpawnActor(FVector SpawnLocation)
 {

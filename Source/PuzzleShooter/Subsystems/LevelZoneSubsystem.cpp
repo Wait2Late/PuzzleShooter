@@ -15,23 +15,23 @@ void ULevelZoneSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 void ULevelZoneSubsystem::Deinitialize()
 {
 	Super::Deinitialize();
-	OnLevelZoneCleared.Clear();
-	OnNewLevelZoneReached.Clear();
+	OnClearedLevel.Clear();
+	OnReachedNewLevel.Clear();
 	
 }
 
-void ULevelZoneSubsystem::SetLevelZone(ELevelZoneType NewLevelZone)
+void ULevelZoneSubsystem::SetLevelZone(const ELevelZoneType NewLevelZone)
 {
 	CurrentLevelZone = NewLevelZone;
 }
 
-void ULevelZoneSubsystem::TriggerNewLevelZoneReached()
+void ULevelZoneSubsystem::TriggerReachedNewLevel()
 {
-	OnNewLevelZoneReached.Broadcast();
+	OnReachedNewLevel.Broadcast();
 }
 
-void ULevelZoneSubsystem::TriggerLevelZoneCleared()
+void ULevelZoneSubsystem::TriggerClearedLevel()
 {
-	OnLevelZoneCleared.Broadcast(CurrentLevelZone);
+	OnClearedLevel.Broadcast(CurrentLevelZone);
 }
 

@@ -3,8 +3,6 @@
 
 #include "TestWorldSubsystem.h"
 
-#include "PuzzleShooter/Manager/WaveManager.h"
-
 void UTestWorldSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
@@ -22,7 +20,7 @@ void UTestWorldSubsystem::DoSomething()
 		FString::Printf(TEXT("Hello WorldSubsystem!")));
 }
 
-void UTestWorldSubsystem::OnInstantiateWaveManager(TSubclassOf<AWaveManager> WaveManager)
+void UTestWorldSubsystem::OnInstantiateWaveManager(const TSubclassOf<AWaveManager> WaveManager)
 {
 	// const TSubclassOf<AWaveManager> WaveManager;
 	GetWorld()->SpawnActor<AWaveManager>(WaveManager, FVector::ZeroVector, FRotator::ZeroRotator);

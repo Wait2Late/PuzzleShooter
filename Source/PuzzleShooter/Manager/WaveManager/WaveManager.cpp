@@ -90,32 +90,18 @@ void AWaveManager::SpawnWave()
 			// UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), SpawnVfx, SpawnOnRandomLocations);
 			// OnSpawnVFX(SpawnOnRandomLocations);
 			
-			// const TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
 
 			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
 
 			TObjectPtr<AEnemyBase> currentEnemy = Cast<AEnemyBase>(CurrentEnemy);
-			// if(CurrentEnemy == nullptr)
-			// {
-			// 	continue;
-			// }
+			if(CurrentEnemy == nullptr)
+			{
+				continue;
+			}
 
 			// CurrentEnemy->OnPoolingActorDespawn.AddDynamic(this, &AWaveManager::RemoveDeadEnemy); //OG
 
-			// APoolingActorBase* CurrentEnemy = nullptr;
 			CurrentEnemy->OnEnemyTypeDespawn.AddDynamic(this, &AWaveManager::RemoveEnemyType);
-
-			// TArray<AEnemyBase*> AEnemyBase; //TODO Why does it not respond to the children?
-			// AEnemyBase.Add(CurrentEnemy);
-
-			// APoolingSystem* PoolingSystem = nullptr;
-			// APoolingActorBase* PoolingActorBase = PoolingSystem->SpawnActor(SpawnOnRandomLocations); //This is the parent of AEnemyBase
-			//
-			// AEnemyBase* EnemyBase = Cast<AEnemyBase>(PoolingActorBase); // Upcast to AEnemyBase
-			//
-			// TArray<TObjectPtr<APoolingActorBase>> CurrentEnemies; //OG
-			//
-			// CurrentEnemies.Add(EnemyBase);
 
 			switch (CurrentEnemyType)
 			{
@@ -125,15 +111,6 @@ void AWaveManager::SpawnWave()
 					default: break;
 			}
 
-			// TObjectPtr<AEnemyBase> EnemyBase;
-			// TArray<TObjectPtr<AEnemyBase>> EnemyBases;
-			// EnemyBases.Add(EnemyBase);
-			// CurrentWaveEnemies.Add(EnemyBase);
-
-			// const TObjectPtr<APoolingSystem> PoolingSystem;
-			// auto s = PoolingSystem->SpawnChild<AEnemyBase>(SpawnOnRandomLocations);
-
-			
 			CurrentWaveEnemies.Add(CurrentEnemy);
 			RemainingEnemiesAmount += 1;
 			
@@ -152,6 +129,41 @@ void AWaveManager::OnInitializePools()
 {
 	for (const auto Pool : EnemyPools)
 		Pool.Value->OnBeginPool();
+}
+
+void AWaveManager::PopulateSpawnLocations()
+{
+	TArray<AActor*> OutActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), SpawnLocationReference, OutActors);
+
+	for (int i = 0; i < OutActors.Num(); i++)
+	{
+    
+		SpawnLocations.Add(OutActors[i]->GetTransform());
+	}
+
+	RepopulateAvailableSpawnLocations();
+}
+
+void AWaveManager::RepopulateAvailableSpawnLocations()
+{
+}
+
+FTransform AWaveManager::GetAvailableSpawnPosition()
+{
+	FTransform SpawnPos;
+	
+	if(AvailableSpawnLocations.Num() > 0)
+	{
+		SpawnPos = AvailableSpawnLocations[0];
+		AvailableSpawnLocations.RemoveAt(0);
+	
+		return SpawnPos;	
+	}
+	else
+	{
+		return SpawnPos;
+	}
 }
 
 FVector AWaveManager::GetRandomLocationAroundPLayer() const

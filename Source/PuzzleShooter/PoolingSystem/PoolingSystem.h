@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "PoolingActorBase.h"
 #include "GameFramework/Actor.h"
+#include "PuzzleShooter/Enemy/EnemyBase.h"
 #include "PoolingSystem.generated.h"
 
 UCLASS()
@@ -29,8 +30,9 @@ public:
 	int GetPoolSize() const;
 
 	template<typename T>
+	T* SpawnEnemyBase(FVector SpawnLocation);
 
-	T SpawnChild(FVector SpawnLocation);
+	// AEnemyBase* SpawnRealEnemyBase(FVector SpawnLocation);//TODO going to test it at some point
 	
 	UFUNCTION(BlueprintCallable, Category = "Pooling Category")
 	APoolingActorBase* SpawnActor(FVector SpawnTransform);

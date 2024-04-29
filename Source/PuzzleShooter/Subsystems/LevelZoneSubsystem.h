@@ -7,8 +7,8 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "LevelZoneSubsystem.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLevelZoneCleared, ELevelZoneType, ClearedLevelZone);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNewLevelZoneReached);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnClearedLevel, ELevelZoneType, ClearedLevelZone);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReachedNewLevel);
 
 UCLASS(BlueprintType)
 class PUZZLESHOOTER_API ULevelZoneSubsystem : public UGameInstanceSubsystem
@@ -29,15 +29,15 @@ public:
 
 
 	//Delegates
-	UPROPERTY(BlueprintAssignable, meta = (DisplayName = "OnNewLevelZoneReached"), Category="Level Zone Subsystem Events")
-	FOnNewLevelZoneReached OnNewLevelZoneReached;
-	UPROPERTY(BlueprintAssignable, meta = (DisplayName = "OnLevelCleared"), Category="Level Zone Subsystem Events")
-	FOnLevelZoneCleared OnLevelZoneCleared;
+	UPROPERTY(BlueprintAssignable, Category="Level Zone Subsystem Events")
+	FOnReachedNewLevel OnReachedNewLevel;
+	UPROPERTY(BlueprintAssignable, Category="Level Zone Subsystem Events")
+	FOnClearedLevel OnClearedLevel;
 
 	UFUNCTION(BlueprintCallable, Category= "LevelZone Subsystem Functions")
-	void TriggerNewLevelZoneReached();
+	void TriggerReachedNewLevel();
 	UFUNCTION(BlueprintCallable, Category= "LevelZone Subsystem Functions")
-	void TriggerLevelZoneCleared();
+	void TriggerClearedLevel();
 	
 private:
 	

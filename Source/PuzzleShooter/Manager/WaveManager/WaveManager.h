@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 // #include "GameFramework/Info.h" // Might revert to AInfo again.
+#include "EnemySpawnLocation.h"
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enemy/EnemyBase.h"
 #include "PuzzleShooter/Enum/LevelZoneType.h"
-#include "../PoolingSystem/PoolingSystem.h"
+#include "PuzzleShooter/PoolingSystem/PoolingSystem.h"
 #include "PuzzleShooter/Struct/EnemyWave.h"
 #include "WaveManager.generated.h"
 
@@ -39,6 +40,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SpawnWave Category")
 	float SpawnOffsetZ = 75.f;
+
+	TArray<FTransform> SpawnLocations;
+
+	TArray<FTransform> AvailableSpawnLocations;
+	
+	UPROPERTY(EditAnywhere, Category="SpawnWave Category")
+	TSubclassOf<AEnemySpawnLocation> SpawnLocationReference;
 
 	UPROPERTY(BlueprintReadOnly)
 	TArray<TObjectPtr<APoolingActorBase>> AmountOfMeleeEnemies;
@@ -81,6 +89,10 @@ protected:
 	
 private:
 
+	void PopulateSpawnLocations();
+	void RepopulateAvailableSpawnLocations();
+	FTransform GetAvailableSpawnPosition();
+	
 	void OnInitializePools();
 	FVector GetRandomLocationAroundPLayer() const;
 

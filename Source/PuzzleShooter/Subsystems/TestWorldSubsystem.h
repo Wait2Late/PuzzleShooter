@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PuzzleShooter/Manager/WaveManager.h"
+#include "PuzzleShooter/Manager/WaveManager/WaveManager.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "TestWorldSubsystem.generated.h"
 
