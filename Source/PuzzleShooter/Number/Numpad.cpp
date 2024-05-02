@@ -75,11 +75,15 @@ void ANumpad::OnInitializeSetAllChildrenLevelZone() const
 	// }
 
 	
+	TArray<AActor*> OutActor;
+	GetAttachedActors(OutActor);
+	
 	for (ANumberBlock* Block : TActorRange<ANumberBlock>(GetWorld()))
 		if (Block->GetParentActor() == this)
 			Block->SetLevelZone(this->LevelZone);
 
 
+	
 	
 	// TArray<ANumberBlock> Blocks;
 	// for (int i = 0; i < ChildActors.Num(); ++i)

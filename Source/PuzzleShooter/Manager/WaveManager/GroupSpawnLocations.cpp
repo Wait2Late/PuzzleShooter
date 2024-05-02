@@ -3,6 +3,9 @@
 
 #include "GroupSpawnLocations.h"
 
+#include "EnemySpawnLocation.h"
+#include "EngineUtils.h"
+
 
 // Sets default values
 AGroupSpawnLocations::AGroupSpawnLocations()
@@ -15,12 +18,21 @@ AGroupSpawnLocations::AGroupSpawnLocations()
 void AGroupSpawnLocations::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	OnInitializeChildrenLevelZoneType();
 }
 
 // Called every frame
 void AGroupSpawnLocations::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType()
+{
+	for (const TObjectPtr<AEnemySpawnLocation> SpawnLocation : TActorRange<AEnemySpawnLocation>(GetWorld()))
+		if (SpawnLocation->GetAttachParentActor() == this)
+			SpawnLocation->SetLevelZone(this->LevelZone);
+
+
 }
 

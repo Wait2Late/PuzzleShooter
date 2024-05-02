@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PuzzleShooter/Enum/LevelZoneType.h"
 #include "GroupSpawnLocations.generated.h"
 
 UCLASS()
@@ -23,5 +24,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+private:
+
+	void OnInitializeChildrenLevelZoneType();
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TEnumAsByte<ELevelZoneType> LevelZone;
+
+	
 	
 };

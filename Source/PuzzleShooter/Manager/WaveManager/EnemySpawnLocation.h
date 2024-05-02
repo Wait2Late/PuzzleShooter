@@ -24,9 +24,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-
+	UFUNCTION(BlueprintCallable)
 	void SetLevelZone(ELevelZoneType NewLevelZone);
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TEnumAsByte<ELevelZoneType> LevelZone;
 private:
 	// UPROPERTY(EditAnywhere)
-	TEnumAsByte<ELevelZoneType> LevelZone;
 };
