@@ -3,10 +3,12 @@
 
 #include "WaveManager.h"
 
+#include "EngineUtils.h"
 #include "NavigationSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
+#include "PuzzleShooter/Subsystems/LevelZoneSubsystem.h"
 
 
 // Sets default values
@@ -75,6 +77,8 @@ void AWaveManager::SpawnWave()
 {
 	if (MaxEnemies >= CurrentWaveEnemies.Num())
 	{
+
+		
 		
 		const EEnemyType CurrentEnemyType = EnemyType;
 		
@@ -93,7 +97,7 @@ void AWaveManager::SpawnWave()
 
 			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
 
-			TObjectPtr<AEnemyBase> currentEnemy = Cast<AEnemyBase>(CurrentEnemy);
+			// TObjectPtr<AEnemyBase> currentEnemy = Cast<AEnemyBase>(CurrentEnemy);
 			if(CurrentEnemy == nullptr)
 			{
 				continue;
@@ -124,6 +128,41 @@ void AWaveManager::SpawnWave()
 	}
 }
 
+void AWaveManager::TempNameGetSpawnLocations()
+{
+	// const TObjectPtr<ULevelZoneSubsystem> LevelZoneSubsystem = GetGameInstance()->GetSubsystem<ULevelZoneSubsystem>();
+	// TArray<FTransform> CurrentSpawnTransforms;
+		
+	for (const TObjectPtr<AEnemySpawnLocation> SpawnLocation : TActorRange<AEnemySpawnLocation>(GetWorld()))
+	{
+		switch (SpawnLocation->LevelZone)
+		{
+		case ELevelZoneType::Level_0: PopulateLevelZoneSpawnLocations(SpawnLocation);
+			break;
+		case ELevelZoneType::Level_1: PopulateLevelZoneSpawnLocations(SpawnLocation);
+			break;
+		case ELevelZoneType::Level_2: PopulateLevelZoneSpawnLocations(SpawnLocation);
+			break;
+		case ELevelZoneType::Level_3: PopulateLevelZoneSpawnLocations(SpawnLocation);
+			break;
+		case ELevelZoneType::Level_4: PopulateLevelZoneSpawnLocations(SpawnLocation);
+			break;
+		default:
+			break;
+		}
+		
+		// if (SpawnLocation->LevelZone == LevelZoneSubsystem->CurrentLevelZone)
+		// {
+		// 	CurrentSpawnTransforms.Add(SpawnLocation->GetActorTransform());
+		// }
+	}
+}
+
+void AWaveManager::PopulateLevelZoneSpawnLocations(AEnemySpawnLocation* EnemySpawnLocation)
+{
+	
+}
+
 
 void AWaveManager::OnInitializePools()
 {
@@ -138,7 +177,6 @@ void AWaveManager::PopulateSpawnLocations()
 
 	for (int i = 0; i < OutActors.Num(); i++)
 	{
-    
 		SpawnLocations.Add(OutActors[i]->GetTransform());
 	}
 
@@ -147,6 +185,7 @@ void AWaveManager::PopulateSpawnLocations()
 
 void AWaveManager::RepopulateAvailableSpawnLocations()
 {
+	AvailableSpawnLocations.Append(SpawnLocations);
 }
 
 FTransform AWaveManager::GetAvailableSpawnPosition()

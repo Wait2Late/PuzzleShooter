@@ -75,10 +75,8 @@ void ANumpad::OnInitializeSetAllChildrenLevelZone() const
 	// }
 
 	
-	TArray<AActor*> OutActor;
-	GetAttachedActors(OutActor);
 	
-	for (ANumberBlock* Block : TActorRange<ANumberBlock>(GetWorld()))
+	for (const TObjectPtr<ANumberBlock> Block : TActorRange<ANumberBlock>(GetWorld()))
 		if (Block->GetParentActor() == this)
 			Block->SetLevelZone(this->LevelZone);
 

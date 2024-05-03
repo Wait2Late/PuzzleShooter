@@ -26,7 +26,7 @@ public:
 
 private:
 
-	void OnInitializeChildrenLevelZoneType();
+	void OnInitializeChildrenLevelZoneType() const;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

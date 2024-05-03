@@ -41,12 +41,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="SpawnWave Category")
 	float SpawnOffsetZ = 75.f;
 
+	//SpawnLocations
 	TArray<FTransform> SpawnLocations;
-
 	TArray<FTransform> AvailableSpawnLocations;
-	
+
 	UPROPERTY(EditAnywhere, Category="SpawnWave Category")
 	TSubclassOf<AEnemySpawnLocation> SpawnLocationReference;
+	
 
 	UPROPERTY(BlueprintReadOnly)
 	TArray<TObjectPtr<APoolingActorBase>> AmountOfMeleeEnemies;
@@ -89,6 +90,9 @@ protected:
 	
 private:
 
+	void TempNameGetSpawnLocations();
+	void PopulateLevelZoneSpawnLocations(AEnemySpawnLocation* EnemySpawnLocation);
+	
 	void PopulateSpawnLocations();
 	void RepopulateAvailableSpawnLocations();
 	FTransform GetAvailableSpawnPosition();

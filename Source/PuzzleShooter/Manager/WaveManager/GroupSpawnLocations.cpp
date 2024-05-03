@@ -27,8 +27,9 @@ void AGroupSpawnLocations::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType()
+void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 {
+	
 	for (const TObjectPtr<AEnemySpawnLocation> SpawnLocation : TActorRange<AEnemySpawnLocation>(GetWorld()))
 		if (SpawnLocation->GetAttachParentActor() == this)
 			SpawnLocation->SetLevelZone(this->LevelZone);
