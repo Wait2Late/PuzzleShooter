@@ -5,13 +5,15 @@
 #include "CoreMinimal.h"
 #include "PuzzleShooter/Manager/WaveManager/WaveManager.h"
 #include "Subsystems/WorldSubsystem.h"
-#include "TestWorldSubsystem.generated.h"
+#include "PuzzleWorldSubsystem.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInitializeEnemySpawnLocations);
 /**
  * 
  */
 UCLASS()
-class PUZZLESHOOTER_API UTestWorldSubsystem : public UWorldSubsystem
+class PUZZLESHOOTER_API UPuzzleWorldSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
@@ -19,6 +21,9 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
+	
+	FOnInitializeEnemySpawnLocations OnInitializeEnemySpawnLocations;
+	
 	UFUNCTION(BlueprintCallable)
 	void DoSomething();
 

@@ -25,12 +25,12 @@ void ULevelZoneSubsystem::SetLevelZone(const ELevelZoneType NewLevelZone)
 	CurrentLevelZone = NewLevelZone;
 }
 
-void ULevelZoneSubsystem::TriggerReachedNewLevel()
+void ULevelZoneSubsystem::TriggerReachedNewLevel() const
 {
 	OnReachedNewLevel.Broadcast();
 }
 
-void ULevelZoneSubsystem::TriggerClearedLevel()
+void ULevelZoneSubsystem::TriggerClearedLevel() const
 {
 	OnClearedLevel.Broadcast(CurrentLevelZone);
 }

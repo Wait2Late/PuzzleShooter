@@ -12,6 +12,8 @@
 #include "PuzzleShooter/Struct/EnemyWave.h"
 #include "WaveManager.generated.h"
 
+
+
 UCLASS()
 class PUZZLESHOOTER_API AWaveManager : public AActor
 {
@@ -42,8 +44,8 @@ public:
 	float SpawnOffsetZ = 75.f;
 
 	//SpawnLocations
-	TArray<FTransform> SpawnLocations;
-	TArray<FTransform> AvailableSpawnLocations;
+	// TArray<FTransform> SpawnLocations;
+	// TArray<FTransform> AvailableSpawnLocations;
 
 	UPROPERTY(EditAnywhere, Category="SpawnWave Category")
 	TSubclassOf<AEnemySpawnLocation> SpawnLocationReference;
@@ -81,6 +83,7 @@ public:
 
 	// void RemoveDeadEnemy(APoolingActorBase* PoolingActor);
 
+	UFUNCTION()
 	void RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EEnemyType Enemy);
 	
 protected:
@@ -89,11 +92,18 @@ protected:
 	
 	
 private:
+	TArray<FTransform> CurrentSpawnLocations;
 
-	void TempNameGetSpawnLocations();
-	void PopulateLevelZoneSpawnLocations(AEnemySpawnLocation* EnemySpawnLocation);
+	TArray<FTransform> Level_0_SpawnLocations;
+	TArray<FTransform> Level_1_SpawnLocations;
+	TArray<FTransform> Level_2_SpawnLocations;
+	TArray<FTransform> Level_3_SpawnLocations;
+	TArray<FTransform> Level_4_SpawnLocations;
 	
-	void PopulateSpawnLocations();
+
+	UFUNCTION()
+	void AddSpawnLocations();
+	
 	void RepopulateAvailableSpawnLocations();
 	FTransform GetAvailableSpawnPosition();
 	

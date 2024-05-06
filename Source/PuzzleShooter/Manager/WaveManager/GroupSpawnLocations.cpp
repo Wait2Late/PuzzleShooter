@@ -5,6 +5,7 @@
 
 #include "EnemySpawnLocation.h"
 #include "EngineUtils.h"
+#include "PuzzleShooter/Subsystems/PuzzleWorldSubsystem.h"
 
 
 // Sets default values
@@ -34,6 +35,11 @@ void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 		if (SpawnLocation->GetAttachParentActor() == this)
 			SpawnLocation->SetLevelZone(this->LevelZone);
 
+	
+	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+
+	if (PuzzleWorldSubsystem != nullptr)
+		PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
 
 }
 

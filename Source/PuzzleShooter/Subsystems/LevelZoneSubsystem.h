@@ -35,9 +35,9 @@ public:
 	FOnClearedLevel OnClearedLevel;
 
 	UFUNCTION(BlueprintCallable, Category= "LevelZone Subsystem Functions")
-	void TriggerReachedNewLevel();
+	void TriggerReachedNewLevel() const;
 	UFUNCTION(BlueprintCallable, Category= "LevelZone Subsystem Functions")
-	void TriggerClearedLevel();
+	void TriggerClearedLevel() const;
 	
 private:
 	
