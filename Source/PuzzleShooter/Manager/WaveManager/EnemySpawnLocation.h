@@ -31,4 +31,9 @@ public:
 	TEnumAsByte<ELevelZoneType> LevelZone;
 private:
 	// UPROPERTY(EditAnywhere)
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Display Enemy Spawn Location")
+	FVector EnemySpawnLocation;
+	
 };

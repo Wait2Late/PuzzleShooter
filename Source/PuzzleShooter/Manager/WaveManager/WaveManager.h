@@ -66,8 +66,8 @@ public:
 	TEnumAsByte<EEnemyType> EnemyType;
 
 
-	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
-	int AmountOfEnemiesToSpawn;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "SpawnWave Category")
+	// int AmountOfEnemiesToSpawn;
 
 	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
 	int MaxEnemies = 20;
@@ -89,27 +89,40 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable)
 	void SpawnWave();
-	
-	
-private:
-	TArray<FTransform> CurrentSpawnLocations;
 
+public:
+	//TODO Might not need this, but still going to experiment
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawn Locations")
 	TArray<FTransform> Level_0_SpawnLocations;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawn Locations")
 	TArray<FTransform> Level_1_SpawnLocations;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawn Locations")
 	TArray<FTransform> Level_2_SpawnLocations;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawn Locations")
 	TArray<FTransform> Level_3_SpawnLocations;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawn Locations")
 	TArray<FTransform> Level_4_SpawnLocations;
+
+	UFUNCTION(BlueprintCallable)
+	void AddSpawnLocations();
+private:
+
+	TArray<FTransform> CurrentSpawnLocations;
+	
+	//TODO experiment with nested arrays
+	// TArray<TArray<TObjectPtr<AEnemySpawnLocation>>> SpawnLocation_LevelZone;
+	TArray<TArray<FTransform>> SpawnLocation_LevelZone;
+
+	
 	
 
-	UFUNCTION()
-	void AddSpawnLocations();
 	
+	UFUNCTION()
 	void RepopulateAvailableSpawnLocations();
 	FTransform GetAvailableSpawnPosition();
 	
 	void OnInitializePools();
 	FVector GetRandomLocationAroundPLayer() const;
 
-
-	
+	void AppendNewSpawnLocations(const TArray<FTransform>& SpawnLocations);
 };

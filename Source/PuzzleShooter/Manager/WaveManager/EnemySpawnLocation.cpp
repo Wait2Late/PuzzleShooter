@@ -15,7 +15,7 @@ AEnemySpawnLocation::AEnemySpawnLocation()
 void AEnemySpawnLocation::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	EnemySpawnLocation = GetActorLocation();
 }
 
 // Called every frame

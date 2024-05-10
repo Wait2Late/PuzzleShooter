@@ -27,8 +27,13 @@ void AWaveManager::BeginPlay()
 	OnInitializePools();
 
 	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	if (PuzzleWorld != nullptr)
-		PuzzleWorld->OnInitializeEnemySpawnLocations.AddDynamic(this, &AWaveManager::AddSpawnLocations);
+	PuzzleWorld->OnInitializeEnemySpawnLocations.AddDynamic(this, &AWaveManager::AddSpawnLocations);
+
+	const TObjectPtr<ULevelZoneSubsystem> LevelZoneType = GetGameInstance()->GetSubsystem<ULevelZoneSubsystem>();
+	LevelZoneType->OnReachedNewLevel.AddDynamic(this, &AWaveManager::RepopulateAvailableSpawnLocations);
+
+	// FTimerHandle TimerHandle;
+	// GetWorldTimerManager().SetTimer(TimerHandle, this, &AWaveManager::AddSpawnLocations, 5);
 }
 
 // Called every frame
@@ -40,7 +45,7 @@ void AWaveManager::Tick(float DeltaTime)
 // void AWaveManager::RemoveDeadEnemy(APoolingActorBase* PoolingActor)
 // {
 // 	RemainingEnemiesAmount -= 1;
-// 	UE_LOG(LogTemp, Warning, TEXT("Remainging Enemies: %d"), RemainingEnemiesAmount);
+// 	UE_LOG(LogTemp, Warning, TEXT("Remaining Enemies: %d"), RemainingEnemiesAmount);
 // 	PoolingActor->OnPoolingActorDespawn.RemoveDynamic(this, &AWaveManager::RemoveDeadEnemy); 
 // 	
 // 	CurrentWaveEnemies.Remove(PoolingActor);
@@ -75,6 +80,13 @@ void AWaveManager::RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EE
 	CurrentWaveEnemies.Remove(PoolingActorBase);
 	CurrentWaveEnemies.Shrink();
 
+	// if(RemainingEnemiesAmount == 0) //Might not need this
+	// {
+	// 	RepopulateAvailableSpawnLocations();
+	//
+	// 	// OnWaveDone();
+	// }
+
 }
 
 void AWaveManager::SpawnWave()
@@ -82,9 +94,13 @@ void AWaveManager::SpawnWave()
 	if (MaxEnemies >= CurrentWaveEnemies.Num())
 	{
  
-		const EEnemyType CurrentEnemyType = EnemyType;
+		// const EEnemyType CurrentEnemyType = EnemyType;
 		
-		for (int j = 0; j < AmountOfEnemiesToSpawn; j++)
+		const EEnemyType CurrentEnemyType = EEnemyType::MeleeEnemy;
+		const int OnlySpawnFive = 5;
+
+		// for (int j = 0; j < AmountOfEnemiesToSpawn; j++)
+		for (int j = 0; j < OnlySpawnFive; j++)
 		{
 			if (MaxEnemies <= CurrentWaveEnemies.Num())
 			{
@@ -92,14 +108,15 @@ void AWaveManager::SpawnWave()
 				break;
 			}
 
-			const FVector SpawnOnRandomLocations = GetRandomLocationAroundPLayer();
+			
+			// const FVector SpawnOnRandomLocations = GetRandomLocationAroundPLayer();
 			// UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), SpawnVfx, SpawnOnRandomLocations);
 			// OnSpawnVFX(SpawnOnRandomLocations);
 			
+			const FVector CurrentSpawnTransform = GetAvailableSpawnPosition().GetLocation();
 
-			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnOnRandomLocations);//spawns randomly around the player
+			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(CurrentSpawnTransform);//spawns randomly around the player
 
-			// TObjectPtr<AEnemyBase> currentEnemy = Cast<AEnemyBase>(CurrentEnemy);
 			if(CurrentEnemy == nullptr)
 			{
 				continue;
@@ -132,63 +149,102 @@ void AWaveManager::SpawnWave()
 
 void AWaveManager::AddSpawnLocations()
 {
+	SpawnLocation_LevelZone.SetNum(5);
 	
 	for (const TObjectPtr<AEnemySpawnLocation> SpawnLocation : TActorRange<AEnemySpawnLocation>(GetWorld()))
 	{
-		switch (SpawnLocation->LevelZone)
+		const TEnumAsByte<ELevelZoneType> LevelZoneType = SpawnLocation->LevelZone;
+		const int LevelZoneIndex = LevelZoneType.GetIntValue();
+	
+		// if (SpawnLocation_LevelZone.IsEmpty())
+		// 	break;
+		
+		switch (LevelZoneType)
 		{
-		case ELevelZoneType::Level_0: Level_0_SpawnLocations.Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_1: Level_1_SpawnLocations.Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_2: Level_2_SpawnLocations.Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_3: Level_3_SpawnLocations.Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_4: Level_4_SpawnLocations.Add(SpawnLocation->GetTransform()); break;
+		case ELevelZoneType::Level_0: 
+			SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform());
+			// SpawnLocation_LevelZone[0].Add(SpawnLocation->GetTransform());
+			// Level_0_SpawnLocations.Add(SpawnLocation->GetTransform()); //GO back to this comment only, if worse comes
+			break;
+		case ELevelZoneType::Level_1: 
+			SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform());
+			//SpawnLocation_LevelZone[1].Add(SpawnLocation->GetTransform());
+			// Level_1_SpawnLocations.Add(SpawnLocation->GetTransform()); //GO back to this comment only, if worse comes
+			break;
+		case ELevelZoneType::Level_2: 
+			SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform());
+			//SpawnLocation_LevelZone[2].Add(SpawnLocation->GetTransform());
+			// Level_2_SpawnLocations.Add(SpawnLocation->GetTransform()); //GO back to this comment only, if worse comes
+			break;
+		case ELevelZoneType::Level_3: 
+			SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform());
+			//SpawnLocation_LevelZone[3].Add(SpawnLocation->GetTransform());
+			// Level_3_SpawnLocations.Add(SpawnLocation->GetTransform()); //GO back to this comment only, if worse comes
+			break;
+		case ELevelZoneType::Level_4: 
+			SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform());
+			//SpawnLocation_LevelZone[4].Add(SpawnLocation->GetTransform());
+			// Level_4_SpawnLocations.Add(SpawnLocation->GetTransform()); //GO back to this comment only, if worse comes
+			break;
 		default: GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Black,
-			FString::Printf("Need more Level enums"));
+			FString::Printf(TEXT("Need more Level enums")));
 			break;
 		}
 	}
 
-	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	if (PuzzleWorld != nullptr)
-		PuzzleWorld->OnInitializeEnemySpawnLocations.Clear();
+	if (!SpawnLocation_LevelZone.IsEmpty())
+	{
+		Level_0_SpawnLocations.Append(SpawnLocation_LevelZone[0]);
+		Level_1_SpawnLocations.Append(SpawnLocation_LevelZone[1]);
+		Level_2_SpawnLocations.Append(SpawnLocation_LevelZone[2]);
+		Level_3_SpawnLocations.Append(SpawnLocation_LevelZone[3]);
+		Level_4_SpawnLocations.Append(SpawnLocation_LevelZone[4]);
+	}
+
+	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	// if (PuzzleWorld != nullptr)
+	// 	PuzzleWorld->OnInitializeEnemySpawnLocations.RemoveDynamic(this, &AWaveManager::AddSpawnLocations);
 	
 }
-
-
-
-
 
 void AWaveManager::RepopulateAvailableSpawnLocations()
 {
 	const TObjectPtr<ULevelZoneSubsystem> LevelZoneSubsystem = GetGameInstance()->GetSubsystem<ULevelZoneSubsystem>();
-	
-	switch (LevelZoneSubsystem->CurrentLevelZone)
-	{
-		case ELevelZoneType::Level_0:
-			CurrentSpawnLocations.Empty();
-			CurrentSpawnLocations.Append(Level_0_SpawnLocations);
-			break;
-		case ELevelZoneType::Level_1:
-			CurrentSpawnLocations.Empty();
-			CurrentSpawnLocations.Append(Level_1_SpawnLocations);
-			break;
-		case ELevelZoneType::Level_2:
-			CurrentSpawnLocations.Empty();
-			CurrentSpawnLocations.Append(Level_2_SpawnLocations);
-			break;
-		case ELevelZoneType::Level_3:
-			CurrentSpawnLocations.Empty();
-			CurrentSpawnLocations.Append(Level_3_SpawnLocations);
-			break;
-		case ELevelZoneType::Level_4:
-			CurrentSpawnLocations.Empty();
-			CurrentSpawnLocations.Append(Level_4_SpawnLocations);
-			break;
-		default: break;
+	const TEnumAsByte<ELevelZoneType> CurrentLevelZone = LevelZoneSubsystem->CurrentLevelZone;
+	const int LevelZoneIndex = CurrentLevelZone.GetIntValue();
 
-	}
 	
+	// if (!SpawnLocation_LevelZone.IsEmpty())
+	// {
+		switch (CurrentLevelZone)
+		{
+			case ELevelZoneType::Level_0: AppendNewSpawnLocations(SpawnLocation_LevelZone[LevelZoneIndex]); break;
+			// case ELevelZoneType::Level_0: AppendNewSpawnLocations(SpawnLocation_LevelZone[0]); break; 
+			// case ELevelZoneType::Level_0: AppendNewSpawnLocations(Level_0_SpawnLocations); break; //OG
+			case ELevelZoneType::Level_1: AppendNewSpawnLocations(SpawnLocation_LevelZone[LevelZoneIndex]); break;
+			// case ELevelZoneType::Level_1: AppendNewSpawnLocations(SpawnLocation_LevelZone[1]); break; 
+			// case ELevelZoneType::Level_1: AppendNewSpawnLocations(Level_1_SpawnLocations); break; //OG
+			case ELevelZoneType::Level_2: AppendNewSpawnLocations(SpawnLocation_LevelZone[LevelZoneIndex]); break;
+			// case ELevelZoneType::Level_2: AppendNewSpawnLocations(SpawnLocation_LevelZone[2]); break; 
+			// case ELevelZoneType::Level_2: AppendNewSpawnLocations(Level_2_SpawnLocations); break; //OG
+			case ELevelZoneType::Level_3: AppendNewSpawnLocations(SpawnLocation_LevelZone[LevelZoneIndex]); break;
+			// case ELevelZoneType::Level_3: AppendNewSpawnLocations(SpawnLocation_LevelZone[3]); break; 
+			// case ELevelZoneType::Level_3: AppendNewSpawnLocations(Level_3_SpawnLocations); break; //OG
+			case ELevelZoneType::Level_4: AppendNewSpawnLocations(SpawnLocation_LevelZone[LevelZoneIndex]); break;
+			// case ELevelZoneType::Level_4: AppendNewSpawnLocations(SpawnLocation_LevelZone[4]); break; 
+			// case ELevelZoneType::Level_4: AppendNewSpawnLocations(Level_4_SpawnLocations); break; //OG
+			default: break;
+		}
+	// }
 	// AvailableSpawnLocations.Append(SpawnLocations); //OG
+}
+
+void AWaveManager::AppendNewSpawnLocations(const TArray<FTransform>& SpawnLocations)
+{
+	if(!CurrentSpawnLocations.IsEmpty())
+		CurrentSpawnLocations.Empty();
+
+	CurrentSpawnLocations.Append(SpawnLocations);
 }
 
 FTransform AWaveManager::GetAvailableSpawnPosition()
@@ -267,6 +323,8 @@ FVector AWaveManager::GetRandomLocationAroundPLayer() const
 		return FVector::ZeroVector;
 	}
 }
+
+
 
 // void AWaveManager::PopulateSpawnLocations()
 // {

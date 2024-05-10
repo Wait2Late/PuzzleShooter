@@ -14,14 +14,9 @@ void UPuzzleWorldSubsystem::Deinitialize()
 	
 }
 
-void UPuzzleWorldSubsystem::DoSomething()
+void UPuzzleWorldSubsystem::BroadcastOnInitializeEnemySpawnLocations()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2, FColor::Emerald,
-		FString::Printf(TEXT("Hello WorldSubsystem!")));
+	OnInitializeEnemySpawnLocations.Broadcast();
 }
 
-void UPuzzleWorldSubsystem::OnInstantiateWaveManager(const TSubclassOf<AWaveManager> WaveManager)
-{
-	// const TSubclassOf<AWaveManager> WaveManager;
-	GetWorld()->SpawnActor<AWaveManager>(WaveManager, FVector::ZeroVector, FRotator::ZeroRotator);
-}
+

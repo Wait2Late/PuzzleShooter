@@ -5,6 +5,7 @@
 
 #include "EnemySpawnLocation.h"
 #include "EngineUtils.h"
+#include "WaveManager.h"
 #include "PuzzleShooter/Subsystems/PuzzleWorldSubsystem.h"
 
 
@@ -13,6 +14,7 @@ AGroupSpawnLocations::AGroupSpawnLocations()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -20,6 +22,7 @@ void AGroupSpawnLocations::BeginPlay()
 {
 	Super::BeginPlay();
 	OnInitializeChildrenLevelZoneType();
+	
 }
 
 // Called every frame
@@ -35,11 +38,25 @@ void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 		if (SpawnLocation->GetAttachParentActor() == this)
 			SpawnLocation->SetLevelZone(this->LevelZone);
 
-	
-	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	// const TObjectPtr<AWaveManager> WaveManager = nullptr;
+	// WaveManager->AddSpawnLocations();
 
-	if (PuzzleWorldSubsystem != nullptr)
-		PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
+	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	// if (PuzzleWorld != nullptr)
+	// 	PuzzleWorld->OnInitializeEnemySpawnLocations.RemoveDynamic(this, &AWaveManager::AddSpawnLocations);
+	// FTimerHandle TimerHandle;
+	//
+	// GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadcastLater, 3);
+	
+
+}
+
+void AGroupSpawnLocations::BroadcastLater() const
+{
+	
+	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	// if (PuzzleWorldSubsystem != nullptr)
+	// 	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
 
 }
 

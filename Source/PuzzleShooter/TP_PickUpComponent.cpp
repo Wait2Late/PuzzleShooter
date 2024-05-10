@@ -2,6 +2,8 @@
 
 #include "TP_PickUpComponent.h"
 
+#include "Subsystems/PuzzleWorldSubsystem.h"
+
 UTP_PickUpComponent::UTP_PickUpComponent()
 {
 	// Setup the Sphere Collision
@@ -45,8 +47,17 @@ void UTP_PickUpComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
 	{
 		// Notify that the actor is being picked up
 		OnPickUp.Broadcast(Character);
-
 		OnPickUp.RemoveAll(this);
+
+		const auto PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+		if (PuzzleWorld != nullptr)
+		{
+			PuzzleWorld->OnInitializeEnemySpawnLocations.Broadcast();
+			PuzzleWorld->OnInitializeEnemySpawnLocations.Clear();
+			
+		}
+		
+		
 		// Unregister from the Overlap Event so it is no longer triggered
 		OnComponentBeginOverlap.RemoveAll(this);
 		OnComponentEndOverlap.RemoveAll(this);

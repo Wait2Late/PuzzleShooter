@@ -7,26 +7,22 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "LevelZoneSubsystem.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnClearedLevel, ELevelZoneType, ClearedLevelZone);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnReachedNewLevel);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnClearedLevel, ELevelZoneType, ClearedLevelZone);
 
 UCLASS(BlueprintType)
 class PUZZLESHOOTER_API ULevelZoneSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
-	
-	
 public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
-
 	
 	UPROPERTY(BlueprintReadOnly)
 	TEnumAsByte<ELevelZoneType> CurrentLevelZone;
 
 	UFUNCTION(BlueprintCallable)
 	void SetLevelZone(ELevelZoneType NewLevelZone);
-
 
 	//Delegates
 	UPROPERTY(BlueprintAssignable, Category="Level Zone Subsystem Events")
@@ -40,5 +36,7 @@ public:
 	void TriggerClearedLevel() const;
 	
 private:
+
+
 	
 };

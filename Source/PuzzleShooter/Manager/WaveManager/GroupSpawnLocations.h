@@ -27,7 +27,8 @@ public:
 private:
 
 	void OnInitializeChildrenLevelZoneType() const;
-
+	void BroadcastLater() const;
+	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TEnumAsByte<ELevelZoneType> LevelZone;

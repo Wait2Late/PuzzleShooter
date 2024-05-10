@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PuzzleShooter/Manager/WaveManager/WaveManager.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "PuzzleWorldSubsystem.generated.h"
 
@@ -21,13 +20,14 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
-	
+	UPROPERTY(BlueprintAssignable, Category= "Puzzle World Subsystem Events")
 	FOnInitializeEnemySpawnLocations OnInitializeEnemySpawnLocations;
-	
-	UFUNCTION(BlueprintCallable)
-	void DoSomething();
+
 
 	UFUNCTION(BlueprintCallable)
-	void OnInstantiateWaveManager(TSubclassOf<AWaveManager> WaveManager);
+	void BroadcastOnInitializeEnemySpawnLocations();
+	
+
+
 	
 };
