@@ -31,7 +31,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(BlueprintReadOnly, Category= "WaveManager Category")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "WaveManager Category")
 	int CurrentWaveIndex = 0;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "WaveManager Category")
@@ -61,16 +61,14 @@ public:
 	UPROPERTY(EditAnywhere, Category="SpawnWave Category")
 	TMap<TEnumAsByte<EEnemyType>, TObjectPtr<APoolingSystem>> EnemyPools;
 
-
-
-	TEnumAsByte<EEnemyType> EnemyType;
+	// TEnumAsByte<EEnemyType> EnemyType;
 
 
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category= "SpawnWave Category")
 	// int AmountOfEnemiesToSpawn;
 
-	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
-	int MaxEnemies = 20;
+	// UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
+	// int MaxEnemies = 5;
 
 	UPROPERTY(BlueprintReadWrite, Category= "SpawnWave Category")
 	int MeleeEnemies;
@@ -103,8 +101,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Spawn Locations")
 	TArray<FTransform> Level_4_SpawnLocations;
 
-	UFUNCTION(BlueprintCallable)
-	void AddSpawnLocations();
 private:
 
 	TArray<FTransform> CurrentSpawnLocations;
@@ -113,9 +109,8 @@ private:
 	// TArray<TArray<TObjectPtr<AEnemySpawnLocation>>> SpawnLocation_LevelZone;
 	TArray<TArray<FTransform>> SpawnLocation_LevelZone;
 
-	
-	
-
+	UFUNCTION()
+	void AddSpawnLocations();
 	
 	UFUNCTION()
 	void RepopulateAvailableSpawnLocations();

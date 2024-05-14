@@ -20,12 +20,11 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
+	//Delegate EVENTS
 	UPROPERTY(BlueprintAssignable, Category= "Puzzle World Subsystem Events")
 	FOnInitializeEnemySpawnLocations OnInitializeEnemySpawnLocations;
 
 
-	UFUNCTION(BlueprintCallable)
-	void BroadcastOnInitializeEnemySpawnLocations();
 	
 
 

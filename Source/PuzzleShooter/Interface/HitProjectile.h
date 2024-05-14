@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "HitNumberBlock.generated.h"
+#include "HitProjectile.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE()
-class UHitNumberBlock : public UInterface
+class UHitProjectile : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,7 +16,7 @@ class UHitNumberBlock : public UInterface
 /**
  * 
  */
-class PUZZLESHOOTER_API IHitNumberBlock
+class PUZZLESHOOTER_API IHitProjectile
 {
 	GENERATED_BODY()
 

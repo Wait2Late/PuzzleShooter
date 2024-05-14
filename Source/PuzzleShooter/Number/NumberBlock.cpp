@@ -19,9 +19,9 @@ ANumberBlock::ANumberBlock()
 	
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
 	StaticMeshComponent->SetupAttachment(RootComponent);
-	StaticMeshComponent->SetStaticMesh(CubeMeshRef);
-	FTransform transform(FVector(1,1,1));
-	StaticMeshComponent->SetWorldTransform(transform);
+	// StaticMeshComponent->SetStaticMesh(CubeMeshRef);
+	const FTransform Transform(FVector(1,1,1));
+	StaticMeshComponent->SetWorldTransform(Transform);
 	// StaticMeshComponent->SetBoundsScale(0.25);
 	
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("Cube"));
@@ -42,29 +42,25 @@ void ANumberBlock::BeginPlay()
 	// OnInitializeLevelZone();
 }
 
-
-
-
 // Called every frame
 void ANumberBlock::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
+
+
 void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UNumbersGameInstance* NumberGI = GetGameInstance<UNumbersGameInstance>();
-
-	
-
 	
 	const ULevelZoneSubsystem* levelZoneSubsystem = GetGameInstance<UNumbersGameInstance>()->GetSubsystem<ULevelZoneSubsystem>();
 	const TEnumAsByte<ELevelZoneType> CurrentLevelZone = levelZoneSubsystem->CurrentLevelZone;
 	
 
 	if (CurrentLevelZone == this->LevelZone &&
-		OtherActor->Implements<UHitNumberBlock>() &&
+		OtherActor->Implements<UHitProjectile>() &&
 		NumberGI->Implements<UGameInstanceInterface>())
 	{
 		const int NumpadNumber = NumpadType.GetIntValue();
@@ -75,7 +71,8 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		// 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
 		// 		FString(TEXT("BACKSPACE")));
 		// 	UpdateNumberUI();
-		// 	break;*/
+		// 	break;
+		*/
 		case ENumpadType::NumPad_C:
 			C_Erasure();
 			break;
@@ -110,34 +107,34 @@ void ANumberBlock::C_Erasure()
 
 void ANumberBlock::OnInitializeLevelZone() // Not needed
 {
-	TArray<AActor*> OutActors;
+	// TArray<AActor*> OutActors;
+	//
+	// const TSubclassOf<ANumpad> NumPad;
+	//
+	// UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumPad, OutActors);
+	//
+	// // GetAllChildActors()
+	// const AActor* ParentAttachedActor = this->GetAttachParentActor();
+	//
+	// for (const auto OutActor : OutActors)
+	// {
+	// 	if (OutActor == ParentAttachedActor)
+	// 	{
+	// 		// OutActors->
+	// 		// OutActors[0]->GetDefaultSubobjects(OutActors->);
+	// 		
+	// 	}
+	// }
+	//
+	// for (int i = 0; i < OutActors.Num(); ++i)
+	// {
+	// 	OutActors[i]->GetDefaultAttachComponent();
+	// 	
+	// }
 
-	const TSubclassOf<ANumpad> NumPad;
-	
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumPad, OutActors);
-
-	// GetAllChildActors()
-	const AActor* ParentAttachedActor = this->GetAttachParentActor();
-
-	for (const auto OutActor : OutActors)
-	{
-		if (OutActor == ParentAttachedActor)
-		{
-			// OutActors->
-			// OutActors[0]->GetDefaultSubobjects(OutActors->);
-			
-		}
-	}
-
-	for (int i = 0; i < OutActors.Num(); ++i)
-	{
-		OutActors[i]->GetDefaultAttachComponent();
-		
-	}
-
-	for (const ANumpad* Numpad : TActorRange<ANumpad>(GetWorld()))
-		if (Numpad == GetParentActor())
-			SetLevelZone(Numpad->LevelZone);
+	// for (const ANumpad* Numpad : TActorRange<ANumpad>(GetWorld()))
+	// 	if (Numpad == GetParentActor())
+	// 		SetLevelZone(Numpad->LevelZone);
 
 
 }

@@ -14,9 +14,5 @@ void UPuzzleWorldSubsystem::Deinitialize()
 	
 }
 
-void UPuzzleWorldSubsystem::BroadcastOnInitializeEnemySpawnLocations()
-{
-	OnInitializeEnemySpawnLocations.Broadcast();
-}
 
 

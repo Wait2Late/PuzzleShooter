@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "../PoolingSystem/PoolingActorBase.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "Components/BoxComponent.h"
 #include "EnemyBase.generated.h"
 
 
@@ -38,10 +39,28 @@ public:
 
 	// UPROPERTY(EditAnywhere, Category="Enemy Category")
 	// TEnumAsByte<EEnemyType> EnemyType;
+	
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Base")
+	TObjectPtr<UStaticMeshComponent> StaticMeshComponent;
 
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UBoxComponent> BoxComponent;
+
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AI", meta=(AllowPrivateAccess="true"))
 	TObjectPtr<UBehaviorTree> Tree;
 
 	UBehaviorTree* GetBehaviourTree();
+
+	UFUNCTION(BlueprintPure)
+	virtual void OnOverlapBegin(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult);
 protected:
+	
+	
 };

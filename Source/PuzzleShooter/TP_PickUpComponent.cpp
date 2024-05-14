@@ -49,14 +49,6 @@ void UTP_PickUpComponent::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
 		OnPickUp.Broadcast(Character);
 		OnPickUp.RemoveAll(this);
 
-		const auto PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-		if (PuzzleWorld != nullptr)
-		{
-			PuzzleWorld->OnInitializeEnemySpawnLocations.Broadcast();
-			PuzzleWorld->OnInitializeEnemySpawnLocations.Clear();
-			
-		}
-		
 		
 		// Unregister from the Overlap Event so it is no longer triggered
 		OnComponentBeginOverlap.RemoveAll(this);

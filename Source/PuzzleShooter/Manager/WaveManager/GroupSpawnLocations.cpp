@@ -38,25 +38,23 @@ void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 		if (SpawnLocation->GetAttachParentActor() == this)
 			SpawnLocation->SetLevelZone(this->LevelZone);
 
-	// const TObjectPtr<AWaveManager> WaveManager = nullptr;
-	// WaveManager->AddSpawnLocations();
 
-	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	// if (PuzzleWorld != nullptr)
-	// 	PuzzleWorld->OnInitializeEnemySpawnLocations.RemoveDynamic(this, &AWaveManager::AddSpawnLocations);
-	// FTimerHandle TimerHandle;
-	//
-	// GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadcastLater, 3);
-	
-
-}
-
-void AGroupSpawnLocations::BroadcastLater() const
-{
+	// for (TActorIterator<AEnemySpawnLocation> SpawnIterator(GetWorld()); SpawnIterator; ++SpawnIterator)
+		// if (SpawnIterator->GetAttachParentActor() == this)
+			// SpawnIterator->SetLevelZone(this->LevelZone);
 	
 	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	// if (PuzzleWorldSubsystem != nullptr)
-	// 	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
+	// PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
 
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadCastLater, 0.1f);
 }
+
+//TODO Why does this need to be delayed?
+void AGroupSpawnLocations::BroadCastLater() const 
+{
+	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
+}
+
 
