@@ -8,6 +8,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
+#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 #include "PuzzleShooter/Subsystems/LevelZoneSubsystem.h"
 #include "PuzzleShooter/Subsystems/PuzzleWorldSubsystem.h"
 
@@ -78,9 +79,8 @@ void AWaveManager::RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EE
 	CurrentWaveEnemies.Remove(PoolingActorBase);
 	CurrentWaveEnemies.Shrink();
 	
-	GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue,
-FString::Printf(TEXT("CurrentEnemies: %d"), CurrentWaveEnemies.Num()));
-	
+	const int SendPasswordNumber = GetOnePasswordNumber();
+	OnePasswordNumber(SendPasswordNumber);
 
 	// if(RemainingEnemiesAmount == 0) //Might not need this
 	// {
@@ -88,8 +88,9 @@ FString::Printf(TEXT("CurrentEnemies: %d"), CurrentWaveEnemies.Num()));
 	//
 	// 	// OnWaveDone();
 	// }
-
 }
+
+
 
 void AWaveManager::SpawnWave()
 {
@@ -116,8 +117,10 @@ void AWaveManager::SpawnWave()
 			// OnSpawnVFX(SpawnOnRandomLocations);
 			
 			const FVector CurrentSpawnTransform = GetAvailableSpawnPosition().GetLocation();
+			const FVector LocalOffSetZ = FVector(0.0f, 0.0f, SpawnOffsetZ);
+			const auto SpawnCurrentLocation = CurrentSpawnTransform + LocalOffSetZ;
 
-			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(CurrentSpawnTransform);//spawns randomly around the player
+			TObjectPtr<APoolingActorBase> CurrentEnemy = EnemyPools[CurrentEnemyType]->SpawnActor(SpawnCurrentLocation);//spawns randomly around the player
 
 			if(CurrentEnemy == nullptr)
 			{
@@ -138,8 +141,6 @@ void AWaveManager::SpawnWave()
 			CurrentWaveEnemies.Add(CurrentEnemy);
 			
 			RemainingEnemiesAmount += 1;
-			GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue,
-	FString::Printf(TEXT("CurrentEnemies: %d"), CurrentWaveEnemies.Num()));
 		}
 		CurrentWaveIndex += 1;
 	}
@@ -147,6 +148,27 @@ void AWaveManager::SpawnWave()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
 			FString::Printf(TEXT("else it's full")));
+	}
+}
+
+void AWaveManager::UpdatePassword(const TArray<int> Password)
+{
+	CurrentPassword = Password;
+}
+
+int AWaveManager::GetOnePasswordNumber()
+{
+	int FirstElement = 0;
+	if (CurrentPassword.Num() > 0)
+	{
+		FirstElement = CurrentPassword[0];
+		CurrentPassword.RemoveAt(0);
+
+		return FirstElement;
+	}
+	else
+	{
+		return FirstElement;
 	}
 }
 

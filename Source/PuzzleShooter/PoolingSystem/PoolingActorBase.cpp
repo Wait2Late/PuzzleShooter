@@ -49,11 +49,9 @@ void APoolingActorBase::SetActive(bool IsActive)
 	{
 		OnSetActiveCalled(IsActive);
 
-		SetActorHiddenInGame(IsActive);
+		SetActorHiddenInGame(!IsActive);
 		SetActorTickEnabled(IsActive);
 		SetActorEnableCollision(IsActive);
-
-		
 
 		// UPawnMovementComponent* MovementComponent = GetMovementComponent();
 		// MovementComponent->SetComponentTickEnabled(true);
@@ -63,10 +61,10 @@ void APoolingActorBase::SetActive(bool IsActive)
 	}
 	if (IsActive)
 	{
-		SetActorHiddenInGame(!bIsActive);
+		SetActorHiddenInGame(!IsActive);
 		// GetCharacterMovement()->SetDefaultMovementMode();
-		SetActorTickEnabled(bIsActive);
-		SetActorEnableCollision(bIsActive);
+		SetActorTickEnabled(IsActive);
+		SetActorEnableCollision(IsActive);
 
 
 		// MovementComponent->Activate();

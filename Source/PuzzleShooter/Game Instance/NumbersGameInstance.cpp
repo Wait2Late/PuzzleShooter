@@ -36,17 +36,7 @@ void UNumbersGameInstance::C_Implementation()
 	// UpdateNumbersUI(); //Might not need this
 }
 
-void UNumbersGameInstance::BackSpace_Implementation()
-{
-	//TODO Might come back for later. Unsure how complex it will be?
-	
-	int indexBefore = CurrentIndex--;
-	StoredNumbers.Insert(0, indexBefore);
 
-	// StoredNumbers.Find(0, indexBefore);
-	// StoredNumbers.Contains(0);
-	// StoredNumbers.RemoveAt(0);
-}
 
 int UNumbersGameInstance::GetCurrentIndex_Implementation()
 {
@@ -58,29 +48,12 @@ bool UNumbersGameInstance::GetIsNumbersErased_Implementation()
 	return bIsNumbersErased;
 }
 
-// ELevelZoneType UNumbersGameInstance::GetLevelZone_Implementation()
-// {
-// 	return CurrentLevelZone;
-// }
-//
-// void UNumbersGameInstance::SetLevelZone_Implementation(ELevelZoneType SetLevelZone)
-// {
-// 	CurrentLevelZone = SetLevelZone;
-// }
-
 bool UNumbersGameInstance::IsAnswerCorrect_Implementation(bool CheckPassword)
 {
 	if (CheckPassword)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Green,
 			FString::Printf(TEXT("The answer is correct!")));
-
-		
-		// FTimerHandle TimerHandle;
-		// GetWorld()->GetTimerManager().SetTimer(
-		// 	TimerHandle, this, &UNumbersGameInstance::C_Implementation,
-		// 	0, false, 2.0f);
-
 
 		UpdateZeros();
 	}
@@ -91,4 +64,16 @@ bool UNumbersGameInstance::IsAnswerCorrect_Implementation(bool CheckPassword)
 TArray<int> UNumbersGameInstance::GetNumberArray_Implementation()
 {
 	return StoredNumbers;
+}
+
+void UNumbersGameInstance::BackSpace_Implementation()
+{
+	//TODO Might come back for later. Unsure how complex it will be?
+	
+	int indexBefore = CurrentIndex--;
+	StoredNumbers.Insert(0, indexBefore);
+
+	// StoredNumbers.Find(0, indexBefore);
+	// StoredNumbers.Contains(0);
+	// StoredNumbers.RemoveAt(0);
 }

@@ -43,7 +43,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category="Base")
 	TObjectPtr<UStaticMeshComponent> StaticMeshComponent;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
 	TObjectPtr<UBoxComponent> BoxComponent;
 
 	

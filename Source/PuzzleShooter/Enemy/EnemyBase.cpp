@@ -17,8 +17,6 @@ AEnemyBase::AEnemyBase()
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
 	BoxComponent->SetupAttachment(StaticMeshComponent);
 
-	
-
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AEnemyBase::OnOverlapBegin);
 }
 
@@ -51,8 +49,7 @@ void AEnemyBase::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor
 	if (OtherActor->Implements<UHitProjectile>())
 	{
 		Deactivate();
-		GEngine->AddOnScreenDebugMessage(-1, 1.5f, FColor::Red,
-			FString::Printf(TEXT("Returned to Pool")));
+		OtherActor->Destroy();
 	}
 
 

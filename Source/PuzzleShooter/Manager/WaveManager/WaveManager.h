@@ -83,7 +83,10 @@ public:
 
 	UFUNCTION()
 	void RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EEnemyType Enemy);
-	
+
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnePasswordNumber(int PasswordNumber);
 protected:
 	UFUNCTION(BlueprintCallable)
 	void SpawnWave();
@@ -102,13 +105,20 @@ public:
 	TArray<FTransform> Level_4_SpawnLocations;
 
 private:
-
 	TArray<FTransform> CurrentSpawnLocations;
+
+	TArray<int> CurrentPassword;
 	
 	//TODO experiment with nested arrays
 	// TArray<TArray<TObjectPtr<AEnemySpawnLocation>>> SpawnLocation_LevelZone;
 	TArray<TArray<FTransform>> SpawnLocation_LevelZone;
 
+	UFUNCTION(BlueprintCallable)
+	void UpdatePassword(TArray<int> Password);
+
+	int GetOnePasswordNumber();
+
+	
 	UFUNCTION()
 	void AddSpawnLocations();
 	

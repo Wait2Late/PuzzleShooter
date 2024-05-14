@@ -23,6 +23,12 @@ void ULevelZoneSubsystem::Deinitialize()
 void ULevelZoneSubsystem::SetLevelZone(const ELevelZoneType NewLevelZone)
 {
 	CurrentLevelZone = NewLevelZone;
+
+	if (CurrentLevelZone.GetIntValue() > 4)
+	{
+		OnClearedLevel.Clear();
+		OnReachedNewLevel.Clear();
+	}
 }
 
 void ULevelZoneSubsystem::TriggerReachedNewLevel() const

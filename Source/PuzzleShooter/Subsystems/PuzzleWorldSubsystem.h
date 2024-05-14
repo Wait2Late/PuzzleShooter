@@ -7,7 +7,9 @@
 #include "PuzzleWorldSubsystem.generated.h"
 
 
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInitializeEnemySpawnLocations);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAddNewPasswordHint, int, PasswordHint);
 /**
  * 
  */
@@ -23,10 +25,11 @@ public:
 	//Delegate EVENTS
 	UPROPERTY(BlueprintAssignable, Category= "Puzzle World Subsystem Events")
 	FOnInitializeEnemySpawnLocations OnInitializeEnemySpawnLocations;
-
-
+	UPROPERTY(BlueprintAssignable, Category= "Puzzle World Subsystem Events")
+	FOnAddNewPasswordHint OnAddNewPasswordHint;
 	
 
+	UFUNCTION(BlueprintCallable)
+	void UpdatePasswordHints(int PasswordHint);
 
-	
 };
