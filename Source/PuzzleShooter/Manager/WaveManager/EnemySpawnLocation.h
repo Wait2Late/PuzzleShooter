@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enum/LevelZoneType.h"
+#include "PuzzleShooter/Interface/OnInitializeLevelZones.h"
 #include "EnemySpawnLocation.generated.h"
 
 UCLASS()
-class PUZZLESHOOTER_API AEnemySpawnLocation : public AActor
+class PUZZLESHOOTER_API AEnemySpawnLocation : public AActor, public IOnInitializeLevelZones
 {
 	GENERATED_BODY()
 
@@ -24,13 +25,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
 	UFUNCTION(BlueprintCallable)
-	void SetLevelZone(ELevelZoneType NewLevelZone);
+	virtual void SetLevelZone_Implementation(const ELevelZoneType NewLevelZone) override;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<ELevelZoneType> LevelZone;
 private:
-	// UPROPERTY(EditAnywhere)
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Display Enemy Spawn Location")

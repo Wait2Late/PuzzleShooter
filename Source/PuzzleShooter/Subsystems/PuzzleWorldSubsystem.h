@@ -30,6 +30,6 @@ public:
 	
 
 	UFUNCTION(BlueprintCallable)
-	void UpdatePasswordHints(int PasswordHint);
+	void UpdatePasswordHints(int PasswordHint) const;
 
 };

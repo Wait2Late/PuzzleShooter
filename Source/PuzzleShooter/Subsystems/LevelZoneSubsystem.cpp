@@ -7,7 +7,6 @@
 void ULevelZoneSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-
 	
 	CurrentLevelZone = ELevelZoneType::Level_0;
 }
@@ -24,7 +23,8 @@ void ULevelZoneSubsystem::SetLevelZone(const ELevelZoneType NewLevelZone)
 {
 	CurrentLevelZone = NewLevelZone;
 
-	if (CurrentLevelZone.GetIntValue() > 4)
+	const TEnumAsByte LevelFour = ELevelZoneType::Level_4;
+	if (CurrentLevelZone.GetIntValue() > LevelFour.GetIntValue())
 	{
 		OnClearedLevel.Clear();
 		OnReachedNewLevel.Clear();

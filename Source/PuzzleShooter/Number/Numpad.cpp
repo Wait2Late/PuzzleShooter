@@ -33,69 +33,19 @@ void ANumpad::Tick(float DeltaTime)
 
 void ANumpad::OnInitializeSetAllChildrenLevelZone() const
 {
-	// TArray<AActor*> OutActors;
-	// TArray<AActor*> ChildActors;
-	// GetAllChildActors(ChildActors);
-	//
-	// const TSubclassOf<ANumberBlock> NumberBlock;
-	//
-	// UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumberBlock, OutActors);
-	//
-	//
-	// for (const auto* OutActor : OutActors)
-	// {
-	// 	for (const auto* OutChildActor : ChildActors)
-	// 	{
-	// 		if (OutChildActor == OutActor)
-	// 		{
-	// 			OutActor->SetLevelZone(this->LevelZone);
-	// 		}
-	// 	}
-	// }
-
-
-	// for(TActorIterator<ANumberBlock> BlockItr(GetWorld()); BlockItr; ++BlockItr)
-	// {
-	// 	if (BlockItr && *BlockItr)
-	// 	{
-	// 		auto* CurrentBlock = *BlockItr;
-	//
-	// 		auto level = CurrentBlock->LevelZone;
-	// 	}
-	// }
 	
-	// TArray<AActor*> childActors;
-	//
-	// GetAllChildActors(childActors);
-	//
-	// for (auto child : childActors)
-	// {
-	// 	auto block = Cast<ANumberBlock>(child);
-	// 	block->SetLevelZone(this->LevelZone);
-	// }
+	TArray<TObjectPtr<AActor>> ChildActors;
+	GetAllChildActors(ChildActors);
+
+	for (TObjectPtr<AActor> ChildActor : ChildActors)
+		if (ChildActor->Implements<UOnInitializeLevelZones>())
+			IOnInitializeLevelZones::Execute_SetLevelZone(ChildActor, this->LevelZone);
 
 	
-	
-	for (const TObjectPtr<ANumberBlock> Block : TActorRange<ANumberBlock>(GetWorld()))
-		if (Block->GetParentActor() == this)
-			Block->SetLevelZone(this->LevelZone);
-
-
-	
-	
-	// TArray<ANumberBlock> Blocks;
-	// for (int i = 0; i < ChildActors.Num(); ++i)
-	// {
-	// 	if (ChildActors[i]->IsChildActor())
-	// 	{
-	// 		Blocks.Add(ChildActors[i]->Get)
-	// 	}
-	//
-	// 	// if (IsChildActor() == ChildActors[i]->Children)
-	// 	// {
-	// 		
-	// 	// }
-	// 	// OutActors[i]->LevelZone
-	// }
+	//This was a lot less efficient than I thought
+	// for (const TObjectPtr<ANumberBlock> Block : TActorRange<ANumberBlock>(GetWorld())) 
+	// 	if (Block->GetParentActor() == this)
+	// 		Block->SetLevelZone(this->LevelZone);
 }
+
 

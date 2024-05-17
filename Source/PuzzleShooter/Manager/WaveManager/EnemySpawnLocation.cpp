@@ -24,7 +24,7 @@ void AEnemySpawnLocation::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AEnemySpawnLocation::SetLevelZone(ELevelZoneType NewLevelZone)
+void AEnemySpawnLocation::SetLevelZone_Implementation(const ELevelZoneType NewLevelZone)
 {
 	LevelZone = NewLevelZone;
 }

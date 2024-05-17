@@ -4,8 +4,6 @@
 #include "GroupSpawnLocations.h"
 
 #include "EnemySpawnLocation.h"
-#include "EngineUtils.h"
-#include "WaveManager.h"
 #include "PuzzleShooter/Subsystems/PuzzleWorldSubsystem.h"
 
 
@@ -33,19 +31,21 @@ void AGroupSpawnLocations::Tick(float DeltaTime)
 
 void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 {
+
+	TArray<TObjectPtr<AActor>> AttachedActors;
+	GetAttachedActors(AttachedActors);
+
+	for (const TObjectPtr<AActor> AttachedActor : AttachedActors)
+		if (AttachedActor->Implements<UOnInitializeLevelZones>())
+			IOnInitializeLevelZones::Execute_SetLevelZone(AttachedActor, this->LevelZone);
 	
-	for (const TObjectPtr<AEnemySpawnLocation> SpawnLocation : TActorRange<AEnemySpawnLocation>(GetWorld()))
-		if (SpawnLocation->GetAttachParentActor() == this)
-			SpawnLocation->SetLevelZone(this->LevelZone);
-
-
-	// for (TActorIterator<AEnemySpawnLocation> SpawnIterator(GetWorld()); SpawnIterator; ++SpawnIterator)
-		// if (SpawnIterator->GetAttachParentActor() == this)
-			// SpawnIterator->SetLevelZone(this->LevelZone);
 	
-	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	// PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
+	// TWeakObjectPtr<AEnemySpawnLocation> //TODO use this if unsure which ptr to use
+	// TSharedPtr<AEnemySpawnLocation> //TODO use this when a ptr need to be shared across all things
 
+
+	// BroadCastAddSpawnLocations();
+	
 	FTimerHandle TimerHandle;
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadCastLater, 0.1f);
 }
@@ -53,8 +53,14 @@ void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 //TODO Why does this need to be delayed?
 void AGroupSpawnLocations::BroadCastLater() const 
 {
+	BroadCastAddSpawnLocations();
+}
+
+void AGroupSpawnLocations::BroadCastAddSpawnLocations() const
+{
 	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
 	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
+	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Clear();
 }
 
 

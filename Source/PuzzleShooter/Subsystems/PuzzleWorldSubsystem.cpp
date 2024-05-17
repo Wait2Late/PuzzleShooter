@@ -14,7 +14,7 @@ void UPuzzleWorldSubsystem::Deinitialize()
 	
 }
 
-void UPuzzleWorldSubsystem::UpdatePasswordHints(const int PasswordHint)
+void UPuzzleWorldSubsystem::UpdatePasswordHints(const int PasswordHint) const
 {
 	OnAddNewPasswordHint.Broadcast(PasswordHint);
 }

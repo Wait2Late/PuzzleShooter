@@ -5,10 +5,8 @@
 
 #include "EngineUtils.h"
 #include "NavigationSystem.h"
-#include "NiagaraFunctionLibrary.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
-#include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 #include "PuzzleShooter/Subsystems/LevelZoneSubsystem.h"
 #include "PuzzleShooter/Subsystems/PuzzleWorldSubsystem.h"
 
@@ -25,16 +23,14 @@ void AWaveManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnInitializePools();
 
 	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
 	PuzzleWorld->OnInitializeEnemySpawnLocations.AddDynamic(this, &AWaveManager::AddSpawnLocations);
 
 	const TObjectPtr<ULevelZoneSubsystem> LevelZoneType = GetGameInstance()->GetSubsystem<ULevelZoneSubsystem>();
-	LevelZoneType->OnReachedNewLevel.AddDynamic(this, &AWaveManager::AWaveManager::SpawnWave);
-
-	// FTimerHandle TimerHandle;
-	// GetWorldTimerManager().SetTimer(TimerHandle, this, &AWaveManager::AddSpawnLocations, 5);
+	LevelZoneType->OnReachedNewLevel.AddDynamic(this, &AWaveManager::SpawnWave);
+	
+	OnInitializePools();
 }
 
 // Called every frame
@@ -43,21 +39,9 @@ void AWaveManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// void AWaveManager::RemoveDeadEnemy(APoolingActorBase* PoolingActor)
-// {
-// 	RemainingEnemiesAmount -= 1;
-// 	UE_LOG(LogTemp, Warning, TEXT("Remaining Enemies: %d"), RemainingEnemiesAmount);
-// 	PoolingActor->OnPoolingActorDespawn.RemoveDynamic(this, &AWaveManager::RemoveDeadEnemy); 
-// 	
-// 	CurrentWaveEnemies.Remove(PoolingActor);
-// 	CurrentWaveEnemies.Shrink();
-// }
-
 void AWaveManager::RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EEnemyType Enemy)
 {
 	RemainingEnemiesAmount -= 1;
-	UE_LOG(LogTemp, Warning, TEXT("Remainging Enemies: %d"), RemainingEnemiesAmount);
-	// PoolingActorBase->OnPoolingActorDespawn.RemoveDynamic(this, &AWaveManager::RemoveDeadEnemy);
 	PoolingActorBase->OnEnemyTypeDespawn.RemoveDynamic(this, &AWaveManager::RemoveEnemyType);
 
 	const TEnumAsByte CurrentEnemyType = Enemy;
@@ -81,13 +65,6 @@ void AWaveManager::RemoveEnemyType(APoolingActorBase* PoolingActorBase, const EE
 	
 	const int SendPasswordNumber = GetOnePasswordNumber();
 	OnePasswordNumber(SendPasswordNumber);
-
-	// if(RemainingEnemiesAmount == 0) //Might not need this
-	// {
-	// 	RepopulateAvailableSpawnLocations();
-	//
-	// 	// OnWaveDone();
-	// }
 }
 
 
@@ -99,8 +76,7 @@ void AWaveManager::SpawnWave()
 	const int MaxEnemies = 5;
 	if (MaxEnemies >= CurrentWaveEnemies.Num())
 	{
-		// const EEnemyType CurrentEnemyType = EnemyType;
-		const EEnemyType CurrentEnemyType = EEnemyType::MeleeEnemy;
+		const EEnemyType CurrentEnemyType = EEnemyType::MeleeEnemy; //Only spawning melee right now
 		const int OnlySpawnFive = 5;
 
 		// for (int j = 0; j < AmountOfEnemiesToSpawn; j++)
@@ -111,10 +87,6 @@ void AWaveManager::SpawnWave()
 				GEngine->AddOnScreenDebugMessage(-1, 4, FColor::Yellow, TEXT("Max amount of enemies. Not allowed to spawn more!"));	
 				break;
 			}
-			
-			// const FVector SpawnOnRandomLocations = GetRandomLocationAroundPLayer();
-			// UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), SpawnVfx, SpawnOnRandomLocations);
-			// OnSpawnVFX(SpawnOnRandomLocations);
 			
 			const FVector CurrentSpawnTransform = GetAvailableSpawnPosition().GetLocation();
 			const FVector LocalOffSetZ = FVector(0.0f, 0.0f, SpawnOffsetZ);
@@ -127,27 +99,19 @@ void AWaveManager::SpawnWave()
 				continue;
 			}
 
-			// CurrentEnemy->OnPoolingActorDespawn.AddDynamic(this, &AWaveManager::RemoveDeadEnemy); //OG
 			CurrentEnemy->OnEnemyTypeDespawn.AddDynamic(this, &AWaveManager::RemoveEnemyType);
 
 			switch (CurrentEnemyType)
 			{
 				case EEnemyType::MeleeEnemy: AmountOfMeleeEnemies.Add(CurrentEnemy); break;
 				case EEnemyType::RangedEnemy: AmountOfRangedEnemies.Add(CurrentEnemy); break;
-				case EEnemyType::None:
 					default: break;
 			}
 
 			CurrentWaveEnemies.Add(CurrentEnemy);
-			
 			RemainingEnemiesAmount += 1;
 		}
 		CurrentWaveIndex += 1;
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow,
-			FString::Printf(TEXT("else it's full")));
 	}
 }
 
@@ -175,7 +139,7 @@ int AWaveManager::GetOnePasswordNumber()
 void AWaveManager::AddSpawnLocations()
 {
 	SpawnLocation_LevelZone.SetNum(5);
-	
+
 	for (const TObjectPtr<AEnemySpawnLocation> SpawnLocation : TActorRange<AEnemySpawnLocation>(GetWorld()))
 	{
 		const TEnumAsByte<ELevelZoneType> LevelZoneType = SpawnLocation->LevelZone;
@@ -203,8 +167,8 @@ void AWaveManager::AddSpawnLocations()
 		Level_4_SpawnLocations.Append(SpawnLocation_LevelZone[4]);
 	}
 
-	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	PuzzleWorld->OnInitializeEnemySpawnLocations.Clear();
+	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	// PuzzleWorld->OnInitializeEnemySpawnLocations.Clear();
 
 	SpawnWave();
 }
@@ -225,7 +189,6 @@ void AWaveManager::RepopulateAvailableSpawnLocations()
 		case ELevelZoneType::Level_4: AppendNewSpawnLocations(SpawnLocation_LevelZone[LevelZoneIndex]); break;
 		default: break;
 	}
-	// AvailableSpawnLocations.Append(SpawnLocations); //OG
 }
 
 void AWaveManager::AppendNewSpawnLocations(const TArray<FTransform>& SpawnLocations)
@@ -251,21 +214,6 @@ FTransform AWaveManager::GetAvailableSpawnPosition()
 	{
 		return SpawnPosition;
 	}
-	
-	////OG	
-	// FTransform SpawnPos;
-	//
-	// if(AvailableSpawnLocations.Num() > 0)
-	// {
-	// 	SpawnPos = AvailableSpawnLocations[0];
-	// 	AvailableSpawnLocations.RemoveAt(0);
-	//
-	// 	return SpawnPos;	
-	// }
-	// else
-	// {
-	// 	return SpawnPos;
-	// }
 }
 
 void AWaveManager::OnInitializePools()
@@ -313,17 +261,3 @@ FVector AWaveManager::GetRandomLocationAroundPLayer() const
 	}
 }
 
-
-
-// void AWaveManager::PopulateSpawnLocations()
-// {
-// 	TArray<AActor*> OutActors;
-// 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), SpawnLocationReference, OutActors);
-//
-// 	for (int i = 0; i < OutActors.Num(); i++)
-// 	{
-// 		SpawnLocations.Add(OutActors[i]->GetTransform());
-// 	}
-//
-// 	RepopulateAvailableSpawnLocations();
-// }

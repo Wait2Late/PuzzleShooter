@@ -28,11 +28,11 @@ private:
 
 	void OnInitializeChildrenLevelZoneType() const;
 	void BroadCastLater() const;
+	void BroadCastAddSpawnLocations() const;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TEnumAsByte<ELevelZoneType> LevelZone;
-
 	
 	
 };

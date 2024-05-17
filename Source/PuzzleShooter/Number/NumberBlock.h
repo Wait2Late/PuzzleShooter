@@ -7,10 +7,11 @@
 #include "GameFramework/Actor.h"
 #include "PuzzleShooter/Enum/LevelZoneType.h"
 #include "PuzzleShooter/Enum/NumpadType.h"
+#include "PuzzleShooter/Interface/OnInitializeLevelZones.h"
 #include "NumberBlock.generated.h"
 
 UCLASS()
-class PUZZLESHOOTER_API ANumberBlock : public AActor
+class PUZZLESHOOTER_API ANumberBlock : public AActor, public IOnInitializeLevelZones
 {
 	GENERATED_BODY()
 
@@ -59,15 +60,13 @@ public:
 		const FHitResult& SweepResult
 		);
 
-	UFUNCTION(BlueprintCallable)
-	void SetLevelZone(ELevelZoneType NewLevelZone);
-	
+	virtual void SetLevelZone_Implementation(const ELevelZoneType NewLevelZone) override;
 private:
-	UFUNCTION()
-	void OnInitializeLevelZone(); //Not needed
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category= "TextNumber Category")
 	TEnumAsByte<ELevelZoneType> LevelZone;
+
+	
 
 };

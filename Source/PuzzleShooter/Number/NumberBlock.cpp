@@ -3,9 +3,7 @@
 
 #include "NumberBlock.h"
 
-#include "EngineUtils.h"
 #include "Numpad.h"
-#include "Kismet/GameplayStatics.h"
 #include "PuzzleShooter/PuzzleShooterProjectile.h"
 #include "PuzzleShooter/Game Instance/NumbersGameInstance.h"
 #include "../Subsystems/LevelZoneSubsystem.h"
@@ -48,8 +46,6 @@ void ANumberBlock::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-
-
 void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
@@ -73,14 +69,8 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		// 	UpdateNumberUI();
 		// 	break;
 		*/
-		case ENumpadType::NumPad_C:
-			C_Erasure();
-			break;
-		default: //default is a numbered pad
-			IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber);
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green,
-				FString::Printf(TEXT("Numpad type: %d"), NumpadNumber));
-			break;
+		case ENumpadType::NumPad_C: C_Erasure(); break;
+		default: IGameInstanceInterface::Execute_SetNumber(NumberGI, NumpadNumber); break;
 		}
 		
 		UpdateNumberUI();
@@ -89,14 +79,14 @@ void ANumberBlock::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	// GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Black, FString(TEXT("Bullet touched me")));
 }
 
-void ANumberBlock::SetLevelZone(ELevelZoneType NewLevelZone)
+void ANumberBlock::SetLevelZone_Implementation(const ELevelZoneType NewLevelZone)
 {
 	LevelZone = NewLevelZone;
 }
 
 void ANumberBlock::C_Erasure()
 {
-	UNumbersGameInstance* NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
+	const TObjectPtr<UNumbersGameInstance> NumberGI = GetWorld()->GetGameInstance<UNumbersGameInstance>();
 	IGameInstanceInterface::Execute_C(NumberGI);
 	
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
@@ -105,36 +95,3 @@ void ANumberBlock::C_Erasure()
 	// UpdateNumberUI(); 
 }
 
-void ANumberBlock::OnInitializeLevelZone() // Not needed
-{
-	// TArray<AActor*> OutActors;
-	//
-	// const TSubclassOf<ANumpad> NumPad;
-	//
-	// UGameplayStatics::GetAllActorsOfClass(GetWorld(), NumPad, OutActors);
-	//
-	// // GetAllChildActors()
-	// const AActor* ParentAttachedActor = this->GetAttachParentActor();
-	//
-	// for (const auto OutActor : OutActors)
-	// {
-	// 	if (OutActor == ParentAttachedActor)
-	// 	{
-	// 		// OutActors->
-	// 		// OutActors[0]->GetDefaultSubobjects(OutActors->);
-	// 		
-	// 	}
-	// }
-	//
-	// for (int i = 0; i < OutActors.Num(); ++i)
-	// {
-	// 	OutActors[i]->GetDefaultAttachComponent();
-	// 	
-	// }
-
-	// for (const ANumpad* Numpad : TActorRange<ANumpad>(GetWorld()))
-	// 	if (Numpad == GetParentActor())
-	// 		SetLevelZone(Numpad->LevelZone);
-
-
-}
