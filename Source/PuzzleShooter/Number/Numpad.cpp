@@ -19,9 +19,7 @@ ANumpad::ANumpad()
 void ANumpad::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	OnInitializeSetAllChildrenLevelZone();
-	
 }
 
 // Called every frame
@@ -30,19 +28,23 @@ void ANumpad::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-
 void ANumpad::OnInitializeSetAllChildrenLevelZone() const
 {
 	
 	TArray<TObjectPtr<AActor>> ChildActors;
 	GetAllChildActors(ChildActors);
 
+	//Interface. Should have done this day 1.
 	for (TObjectPtr<AActor> ChildActor : ChildActors)
 		if (ChildActor->Implements<UOnInitializeLevelZones>())
 			IOnInitializeLevelZones::Execute_SetLevelZone(ChildActor, this->LevelZone);
 
-	
-	//This was a lot less efficient than I thought
+	// //Cast. It's casting...
+	// for (TObjectPtr<AActor> ChildActor : ChildActors)
+	// 	if (const TObjectPtr<ANumberBlock>  NumberBlock = Cast<ANumberBlock>(ChildActor))
+	// 		NumberBlock->SetLevelZone(this->LevelZone);
+	//
+	// //TActorRange. This was a lot less efficient than I thought. Loops 275 times
 	// for (const TObjectPtr<ANumberBlock> Block : TActorRange<ANumberBlock>(GetWorld())) 
 	// 	if (Block->GetParentActor() == this)
 	// 		Block->SetLevelZone(this->LevelZone);

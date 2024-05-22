@@ -64,7 +64,7 @@ public:
 private:
 
 protected:
-	UPROPERTY(BlueprintReadOnly, Category= "TextNumber Category")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category= "TextNumber Category")
 	TEnumAsByte<ELevelZoneType> LevelZone;
 
 	
