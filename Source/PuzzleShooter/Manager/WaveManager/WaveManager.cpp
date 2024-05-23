@@ -16,6 +16,8 @@ AWaveManager::AWaveManager()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
+	SpawnLocation_LevelZone.SetNum(5);
 }
 
 // Called when the game starts or when spawned
@@ -138,20 +140,20 @@ int AWaveManager::GetOnePasswordNumber()
 
 void AWaveManager::AddSpawnLocations()
 {
-	SpawnLocation_LevelZone.SetNum(5);
 
 	for (const TObjectPtr<AEnemySpawnLocation> SpawnLocation : TActorRange<AEnemySpawnLocation>(GetWorld()))
 	{
 		const TEnumAsByte<ELevelZoneType> LevelZoneType = SpawnLocation->LevelZone;
 		const int LevelZoneIndex = LevelZoneType.GetIntValue();
-	
+		const FTransform SpawnLocationTransform = SpawnLocation->GetTransform();
+		
 		switch (SpawnLocation->LevelZone)
 		{
-		case ELevelZoneType::Level_0: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_1: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_2: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_3: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_4: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
+		case ELevelZoneType::Level_0: AddSpawnLocationElements(LevelZoneIndex, SpawnLocationTransform); break;
+		case ELevelZoneType::Level_1: AddSpawnLocationElements(LevelZoneIndex, SpawnLocationTransform); break;
+		case ELevelZoneType::Level_2: AddSpawnLocationElements(LevelZoneIndex, SpawnLocationTransform); break;
+		case ELevelZoneType::Level_3: AddSpawnLocationElements(LevelZoneIndex, SpawnLocationTransform); break;
+		case ELevelZoneType::Level_4: AddSpawnLocationElements(LevelZoneIndex, SpawnLocationTransform); break;
 		default: GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Black,
 			FString::Printf(TEXT("Need more Level enums")));
 			break;
@@ -166,9 +168,6 @@ void AWaveManager::AddSpawnLocations()
 		Level_3_SpawnLocations.Append(SpawnLocation_LevelZone[3]);
 		Level_4_SpawnLocations.Append(SpawnLocation_LevelZone[4]);
 	}
-
-	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorld = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	// PuzzleWorld->OnInitializeEnemySpawnLocations.Clear();
 
 	SpawnWave();
 }

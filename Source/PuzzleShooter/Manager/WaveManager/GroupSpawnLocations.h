@@ -11,6 +11,8 @@ UCLASS()
 class PUZZLESHOOTER_API AGroupSpawnLocations : public AActor
 {
 public:
+	virtual void PostLoad() override;
+
 	virtual void PostInitializeComponents() override;
 
 private:

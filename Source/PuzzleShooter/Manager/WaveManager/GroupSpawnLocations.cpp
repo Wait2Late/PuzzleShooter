@@ -7,14 +7,19 @@
 #include "PuzzleShooter/Subsystems/PuzzleWorldSubsystem.h"
 
 
+void AGroupSpawnLocations::PostLoad()
+{
+	Super::PostLoad();
+}
+
 void AGroupSpawnLocations::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
 	
-	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
-	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
-	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Clear();
+	// const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	// PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
+	// PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Clear();
 }
 
 // Sets default values
@@ -56,9 +61,8 @@ void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 
 	// BroadCastAddSpawnLocations();
 	
-	// FTimerHandle TimerHandle;
-	// GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadCastLater, 0.1f);
-
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadCastLater, 0.1f);
 	
 }
 
