@@ -147,11 +147,11 @@ void AWaveManager::AddSpawnLocations()
 	
 		switch (SpawnLocation->LevelZone)
 		{
-		case ELevelZoneType::Level_0: SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_1: SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_2: SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_3: SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform()); break;
-		case ELevelZoneType::Level_4: SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocation->GetTransform()); break;
+		case ELevelZoneType::Level_0: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
+		case ELevelZoneType::Level_1: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
+		case ELevelZoneType::Level_2: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
+		case ELevelZoneType::Level_3: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
+		case ELevelZoneType::Level_4: AddSpawnLocationElements(LevelZoneIndex, SpawnLocation->GetTransform()); break;
 		default: GEngine->AddOnScreenDebugMessage(-1, 3, FColor::Black,
 			FString::Printf(TEXT("Need more Level enums")));
 			break;
@@ -171,6 +171,11 @@ void AWaveManager::AddSpawnLocations()
 	// PuzzleWorld->OnInitializeEnemySpawnLocations.Clear();
 
 	SpawnWave();
+}
+
+void AWaveManager::AddSpawnLocationElements(const int LevelZoneIndex, const FTransform& SpawnLocationTransform)
+{
+	SpawnLocation_LevelZone[LevelZoneIndex].Add(SpawnLocationTransform);
 }
 
 void AWaveManager::RepopulateAvailableSpawnLocations()

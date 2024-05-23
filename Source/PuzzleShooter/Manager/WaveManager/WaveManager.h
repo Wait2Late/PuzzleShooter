@@ -97,6 +97,7 @@ private:
 	
 	UFUNCTION()
 	void AddSpawnLocations();
+	void AddSpawnLocationElements(int LevelZoneIndex, const FTransform& SpawnLocationTransform);
 	UFUNCTION()
 	void RepopulateAvailableSpawnLocations();
 	FTransform GetAvailableSpawnPosition();

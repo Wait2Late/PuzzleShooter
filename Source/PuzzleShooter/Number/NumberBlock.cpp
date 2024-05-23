@@ -91,7 +91,5 @@ void ANumberBlock::C_Erasure()
 	
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red,
 		FString(TEXT("ERASED")));
-
-	// UpdateNumberUI(); 
 }
 

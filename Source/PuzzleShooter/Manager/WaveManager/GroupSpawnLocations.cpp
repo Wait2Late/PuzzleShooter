@@ -7,6 +7,16 @@
 #include "PuzzleShooter/Subsystems/PuzzleWorldSubsystem.h"
 
 
+void AGroupSpawnLocations::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	
+	const TObjectPtr<UPuzzleWorldSubsystem> PuzzleWorldSubsystem = GetWorld()->GetSubsystem<UPuzzleWorldSubsystem>();
+	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Broadcast();
+	PuzzleWorldSubsystem->OnInitializeEnemySpawnLocations.Clear();
+}
+
 // Sets default values
 AGroupSpawnLocations::AGroupSpawnLocations()
 {
@@ -46,8 +56,10 @@ void AGroupSpawnLocations::OnInitializeChildrenLevelZoneType() const
 
 	// BroadCastAddSpawnLocations();
 	
-	FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadCastLater, 0.1f);
+	// FTimerHandle TimerHandle;
+	// GetWorldTimerManager().SetTimer(TimerHandle, this, &AGroupSpawnLocations::BroadCastLater, 0.1f);
+
+	
 }
 
 //TODO Why does this need to be delayed?

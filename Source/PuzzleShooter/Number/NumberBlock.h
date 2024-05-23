@@ -28,9 +28,6 @@ protected:
 	UStaticMeshComponent* StaticMeshComponent;
 
 	UPROPERTY(EditAnywhere)
-	UStaticMesh* CubeMeshRef;
-
-	UPROPERTY(EditAnywhere)
 	UBoxComponent* BoxComponent;
 	
 
