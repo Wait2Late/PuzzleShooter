@@ -1,2 +1,2 @@
 # PuzzleShooter
- Will be making a FPS puzzle shooter game
+Making a FPS puzzle shooter game
